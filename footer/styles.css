@@ -1,0 +1,14 @@
+.footer-logo{
+      display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: gray;
+  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;     
+  color: white;
+  margin: 0;
+}

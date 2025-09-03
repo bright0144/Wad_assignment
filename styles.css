@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  padding-top: 120px;  
+  padding-bottom: 80px; 
+  height: 100vh;
+  background: url("image/homepage-image.png") no-repeat center center fixed;
+  background-size: cover;  
+}
+
+/* Homepage button */
+.homepage-button {
+  display: inline-block;
+  background: lightblue;
+  color: white;
+  font-size: 18px;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  text-align: center;
+  margin: 750px auto 0 auto; 
+  display: block;
+  width: fit-content;
+}
+
+.homepage-button:hover {
+  background: darkorange;
+}

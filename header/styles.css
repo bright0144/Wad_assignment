@@ -1,0 +1,58 @@
+/* Navbar */
+.navbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: gray;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;     
+  z-index: 1000;   
+}
+
+.navbar .navbar-horizontal-line {
+  border-top: 2px solid white; 
+  width: 100%;
+  margin: 10px 0;
+}
+
+.logo {
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+/* Nav links (default desktop) */
+.nav-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: orange; 
+}
+
+
+.menu-toggle {
+  display: none;
+  font-size: 28px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
