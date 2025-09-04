@@ -7,21 +7,26 @@ body {
   background-size: cover;  
 }
 
-/* Homepage button */
 .homepage-button {
-  display: inline-block;
-  background: lightblue;
+display: flex;
+ background: lightblue;
   color: white;
   font-size: 18px;
   padding: 12px 24px;
   border-radius: 6px;
   text-decoration: none;
-  text-align: center;
-  margin: 750px auto 0 auto; 
-  display: block;
-  width: fit-content;
+  width: 200px;
+  margin: 500px auto 0 auto;
 }
 
 .homepage-button:hover {
   background: darkorange;
+}
+
+#login-button {
+  right: 20; /* This doesn’t do anything without position */
+}
+
+#register-button {
+  margin-left: 20px; /* Push it a bit to the right */
 }

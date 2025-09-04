@@ -1,14 +1,17 @@
 .footer-logo{
-      display: flex;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: gray;
+  background: #5c4033 ;
   padding: 20px;
+  
+  /* Fixes the footer to the bottom of the screen */
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;     
+  width: 100%;
+  
   color: white;
   margin: 0;
 }

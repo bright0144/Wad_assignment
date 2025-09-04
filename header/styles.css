@@ -4,7 +4,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: gray;
+  background: #5c4033;
   padding: 20px;
   position: fixed;
   top: 0;
@@ -54,5 +54,17 @@
   color: white;
   cursor: pointer;
   margin-top: 10px;
+}
+
+.logout-link {
+  color: #ff4d4d; /* red-ish */
+  font-weight: bold;
+}
+
+.logout-link:hover {
+  color: white;
+  background-color: #ff4d4d;
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 
