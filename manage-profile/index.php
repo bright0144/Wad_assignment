@@ -121,6 +121,10 @@ $states = [
       margin-bottom: 10px;
       border-radius: 7px;
     }
+
+    .err {
+      color: red;
+    }
   </style>
 </head>
 
@@ -186,6 +190,7 @@ $states = [
       </button>
     </div>
 
+    <!-- Pop up modal when user click on add new address btn -->
     <div id="addressModal"
       class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">
@@ -205,6 +210,7 @@ $states = [
               placeholder="Address"
               class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               required>
+            <span class="err"></span>
           </div>
 
           <div>
@@ -213,6 +219,7 @@ $states = [
               placeholder="Postcode"
               class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               required>
+            <span class="err"></span>
           </div>
 
           <div>
@@ -224,6 +231,7 @@ $states = [
                 <option value="<?= $state; ?>"><?= $state ?></option>
               <?php endforeach; ?>
             </select>
+            <span class="err"></span>
           </div>
 
           <div class="flex justify-end gap-2 pt-4">
@@ -264,6 +272,8 @@ $states = [
       const emailValue = email.value.trim();
       const passwordValue = password.value.trim();
       const phoneNumberVal = phoneNumber.value.trim().replace(/-/g, ""); // remove hyphens
+
+      profileForm.querySelectorAll(".err").forEach(span => span.textContent = "");
 
       let hasErr = false;
 
@@ -332,9 +342,36 @@ $states = [
 
     const saveNewAddress = (saveBtn) => {
       const newAddressForm = document.querySelector("#newAddressForm")
-      const address = newAddressForm.querySelector('input[name="new-address"]').value;
-      const postcode = newAddressForm.querySelector('input[name="new-postcode"]').value;
-      const state = newAddressForm.querySelector('select[name="new-state"]').value;
+      const address = newAddressForm.querySelector('input[name="new-address"]');
+      const postcode = newAddressForm.querySelector('input[name="new-postcode"]');
+      const state = newAddressForm.querySelector('select[name="new-state"]');
+
+      const addressValue = address.value.trim();
+      const postcodeValue = postcode.value.trim();
+      const stateValue = state.value;
+
+      let hasErr = false;
+
+      // Clear prev error messages
+      newAddressForm.querySelectorAll(".err").forEach(span => span.textContent = "");
+
+      // Validate address
+      if (addressValue) {
+        address.parentElement.querySelector(".err").textContent = "Address cannot be empty";
+        hasErr = true;
+      }
+
+      // Validate postcode (must be 5 digits)
+      const postcodeRegex = /^\d{5}$/
+      if (!postcodeRegex.test(postcodeVal)) {
+        postcode.parentElement.querySelector(".err").textContent = "Postcode must be a 5-digit number";
+        hasErr = true;
+      }
+
+      // Stop if has error
+      if (hasErr) {
+        return;
+      }
 
       fetch("add-address.php", {
           method: "POST",
@@ -342,9 +379,9 @@ $states = [
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-            address,
-            postcode,
-            state
+            address: addressValue,
+            postcode: postcodeValue,
+            state: stateValue
           })
         })
         .then(res => res.json())
