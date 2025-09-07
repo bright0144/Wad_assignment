@@ -32,7 +32,14 @@ if ($conn->connect_error) {
 try {
     if ($_SERVER["REQUEST_METHOD"] === "GET") {
         // Prepare a SQL statement to fetch all orders for the logged-in user.
-        $sql = "SELECT * FROM `Order` WHERE cust_id = ? ORDER BY order_date DESC";
+        $sql = "SELECT 
+    o.*, 
+    ca.address -- or ca.address_name if that's the column with the address text
+FROM `Order` o
+LEFT JOIN customer_addresses ca ON o.address = ca.address_id
+WHERE o.cust_id = ?
+ORDER BY o.order_date DESC;
+";
         $stmt = $conn->prepare($sql);
         if (!$stmt) {
             throw new Exception("Failed to prepare statement: " . $conn->error);

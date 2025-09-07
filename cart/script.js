@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Fetch and render all cart items
     fetchCartItems();
+    loadAddresses()
+
 
     async function fetchCartItems() {
         const response = await fetch("cart_api.php", {
@@ -98,6 +100,43 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+ async function loadAddresses() {
+    try {
+        const response = await fetch("fetch_address.php", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        const data = await response.json();
+
+        const addressSelect = document.getElementById("addressSelect");
+        addressSelect.innerHTML = ""; // Clear previous options
+
+        // ✅ Fix: Access the correct property
+        const addresses = data.addresses;
+
+        if (!Array.isArray(addresses) || addresses.length === 0) {
+            addressSelect.innerHTML = `<option value="">No addresses available</option>`;
+            return;
+        }
+
+        addresses.forEach((address) => {
+            const option = document.createElement("option");
+            option.value = address.address_id;
+            option.textContent = address.address;
+            addressSelect.appendChild(option);
+        });
+
+    } catch (error) {
+        console.error("Error loading addresses:", error);
+        document.getElementById("addressSelect").innerHTML = `<option value="">Failed to load</option>`;
+    }
+}
+
+
+
     // Event listener for the Checkout button
     checkoutBtn.addEventListener("click", async () => {
         const selectedItems = [];
@@ -117,14 +156,26 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Send a POST request to place the order
-        const response = await fetch("cart_api.php", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ items: selectedItems }),
-        });
+       const selectedAddressId = document.getElementById("addressSelect").value;
+
+if (!selectedAddressId) {
+    alert("Please select a delivery address.");
+    return;
+}
+
+    console.log(selectedAddressId);
+    
+     const response = await fetch("cart_api.php", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ 
+        items: selectedItems, 
+        address_id: selectedAddressId
+    }),
+});
+
 
         const result = await response.json();
         alert(result.message);

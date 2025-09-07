@@ -19,6 +19,14 @@
     <h3>Total: <span id="total-price">$0.00</span></h3>
     <button id="checkout-btn">Checkout</button>
 
+ <label for="addressSelect">Select Delivery Address:</label>
+<select id="addressSelect">
+    <option value="">Loading addresses...</option>
+</select>
+
+
+
+
     <!-- Link to the JavaScript file -->
     <script src="script.js"></script>
 </body>

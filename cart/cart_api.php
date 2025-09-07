@@ -55,6 +55,14 @@ switch ($method) {
 
     case 'POST': // Create operation
         $data = json_decode(file_get_contents("php://input"), true);
+        // Get selected address_id from request
+$address_id = $data['address_id'] ?? null;
+
+// Validate
+if (!$address_id) {
+    echo json_encode(["status" => "error", "message" => "No address selected."]);
+    exit;
+}
 
         // Check if the request is to place an order (contains an array of items)
         if (isset($data['items']) && is_array($data['items'])) {
@@ -66,15 +74,6 @@ switch ($method) {
             $conn->begin_transaction();
 
             try {
-                // Fetch customer address for the order
-                $sql_address = "SELECT address FROM customer WHERE cust_id = ?";
-                $stmt_address = $conn->prepare($sql_address);
-                $stmt_address->bind_param("i", $id);
-                $stmt_address->execute();
-                $result_address = $stmt_address->get_result();
-                $customer_data = $result_address->fetch_assoc();
-                $address = $customer_data['address'] ?? 'N/A';
-                $stmt_address->close();
 
                 // Calculate total amount
                 foreach ($items_to_order as $item) {
@@ -86,7 +85,7 @@ switch ($method) {
                 $order_date = date("Y-m-d H:i:s");
                 $sql_order = "INSERT INTO `Order` (address, order_date, order_status, total_amt, cust_id) VALUES (?, ?, ?, ?, ?)";
                 $stmt_order = $conn->prepare($sql_order);
-                $stmt_order->bind_param("sssdi", $address, $order_date, $order_status, $total_amount, $id);
+                $stmt_order->bind_param("issdi", $address_id, $order_date, $order_status, $total_amount, $id);
                 $stmt_order->execute();
                 $order_id = $conn->insert_id;
                 $stmt_order->close();
