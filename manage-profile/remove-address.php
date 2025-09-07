@@ -5,8 +5,6 @@ if (!isset($_SESSION['id'])) {
   header("Location: ../index.php");
   exit;
 }
-
-header('Content-Type: application/json');
 $response = ['success' => false, 'message' => ''];
 
 if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET['address_id'])) {
