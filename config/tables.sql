@@ -196,6 +196,23 @@ CREATE TABLE IF NOT EXISTS `order_item` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- Create the product_review table
+CREATE TABLE IF NOT EXISTS `product_review` (
+  `product_review_id` INT NOT NULL AUTO_INCREMENT,
+  `comment` TEXT NOT NULL,
+  `product_id` INT NOT NULL,
+  `product_review_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`product_review_id`),
+  UNIQUE INDEX `product_review_id_UNIQUE` (`product_review_id` ASC) VISIBLE,
+  -- Add a foreign key constraint to link this table to the `product` table
+  CONSTRAINT `fk_product_review_product1`
+    FOREIGN KEY (`product_id`)
+    REFERENCES `product` (`product_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

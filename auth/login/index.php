@@ -1,5 +1,8 @@
 <?php
 include_once("../../config/config.php");
+
+session_start();
+
 // Input values
 $email = '';
 $password = '';
@@ -42,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   // Only proceed if email and password input are valid
   if (!$inputErr) {
 
-    $user = "select username, password from customer where email = ?";
+    $user = "select username, password, cust_id from customer where email = ?";
 
     $stmt = mysqli_prepare($conn, $user);
 
@@ -56,13 +59,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       // User does not exist
       $loginErr = "Email does not exists";
     } else {
-      mysqli_stmt_bind_result($stmt, $fetchedUsername, $fetchedPassword);
+      mysqli_stmt_bind_result($stmt, $fetchedUsername, $fetchedPassword, $customer_id);
       mysqli_stmt_fetch($stmt);
 
       if (!password_verify($password, $fetchedPassword)) {
         $loginErr = "Password is incorrect";
       } else {
-        $_SESSION["username"] = $fetchedUsername;
+        $_SESSION["id"] = $customer_id;
+        header("Location: ../../product/productList/index.php"); 
       }
     }
 

@@ -1,7 +1,7 @@
 <?php
-$status = include("header/index.php");
+$loginStatus = include("header/index.php");
 
-if ($status === 'success') {
+if ($loginStatus === 'success') {
     header("Location: /Product/productList.php");
     exit();
 } 
@@ -14,17 +14,12 @@ if ($status === 'success') {
     <link rel="stylesheet" href="styles.css">
     <title>Home Page</title>
 </head>
-<body>
+<body>  
 
+    <a class="homepage-button" id="login-button" href="auth/login/index.php">Login !</a>
 
-    <?php include("header/index.php"); ?>
-  
-
-    <a class ="homepage-button" id="login-button" href="/auth/login.php">Login !</a>
-    <a class ="homepage-button" id="register-button" href="/Product/productList.php">Register !</a>
     
-    
-    <?php include("footer/index.php"); ?>
+ <?php include("footer/index.php"); ?>
 
 </body>
 

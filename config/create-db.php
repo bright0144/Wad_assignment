@@ -2,7 +2,7 @@
 $hostName = "localhost";
 $username = "root";
 $password = "";
-$port = 3307;
+$port = 3306;
 
 $conn = mysqli_connect($hostName, $username, $password, null, $port);
 

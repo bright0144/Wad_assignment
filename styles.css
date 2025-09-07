@@ -8,7 +8,7 @@ body {
 }
 
 .homepage-button {
-display: flex;
+  display: flex;
  background: lightblue;
   color: white;
   font-size: 18px;
@@ -16,17 +16,12 @@ display: flex;
   border-radius: 6px;
   text-decoration: none;
   width: 200px;
-  margin: 500px auto 0 auto;
+  margin: 650px auto 0 auto;
+  text-align: center;
 }
 
 .homepage-button:hover {
-  background: darkorange;
+  background: blue;
 }
 
-#login-button {
-  right: 20; /* This doesn’t do anything without position */
-}
 
-#register-button {
-  margin-left: 20px; /* Push it a bit to the right */
-}

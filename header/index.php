@@ -1,9 +1,9 @@
 <?php
 
 if (isset($_SESSION['username'])) {
-    $status = 'success';
+    $loginStatus = 'success';
 } else {
-    $status = 'fail';
+    $loginStatus = 'fail';
 }
 ?>
 
@@ -13,7 +13,7 @@ if (isset($_SESSION['username'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Header</title>
-    <link rel="stylesheet" href="header/styles.css">
+<link rel="stylesheet" href="header/styles.css">
 </head>
 <body>
 <header class="navbar">
@@ -31,7 +31,7 @@ if (isset($_SESSION['username'])) {
         <li><a href="cart.php">Cart</a></li>
         <li><a href="wishlist.php">Wishlist</a></li>
         
-          <?php if ($status === 'success'): ?>
+          <?php if ($loginStatus === 'success'): ?>
             <li><a href="auth/login/log-out.php" class="logout-link">Logout</a></li>
         <?php endif; ?>
       </ul>
