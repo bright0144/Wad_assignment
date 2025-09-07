@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($input["address"]) && isset($
   $state = trim($input["state"]);
   $postcode = trim($input["postcode"]);
 
-  $stmt = $conn->prepare("INSERT INTO customer_address (address, postcode, state, cust_id) VALUES (?, ?, ?, ?)");
+  $stmt = $conn->prepare("INSERT INTO customer_addresseses (address, postcode, state, cust_id) VALUES (?, ?, ?, ?)");
 
   $stmt->bind_param("sssi", $address, $postcode, $state, $userId);
 

@@ -10,7 +10,7 @@ $response = ['success' => false, 'message' => ''];
 if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET['address_id'])) {
   include_once("../config/config.php");
   $addressId = (int)$_GET["address_id"];
-  $stmt = $conn->prepare("DELETE FROM customer_address WHERE address_id = ?;");
+  $stmt = $conn->prepare("DELETE FROM customer_addresses WHERE address_id = ?;");
   $stmt->bind_param("i", $addressId);
   if (!$stmt->execute()) {
     $response['success'] = false;
