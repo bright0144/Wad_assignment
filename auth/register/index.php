@@ -124,21 +124,41 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   // Only proceed if email and password input are valid
   if (!$inputErr) {
     // Example insert query template
-    $insertQuery = "INSERT INTO customer (email, username, password, phone_number, address, postcode, state) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $conn->begin_transaction();
 
-    $stmt = mysqli_prepare($conn, $insertQuery);
+    try {
+      $insertCustomerQuery = "INSERT INTO customer (email, username, password, phone_number) VALUES (?, ?, ?, ?)";
+      $insertAddressQuery = "INSERT INTO customer_address (address, postcode, state, cust_id) VALUES (?,?,?,?);";
 
-    // Hash the password before storing
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+      $insertCustomerStmt = mysqli_prepare($conn, $insertCustomerQuery);
+      $insertAddressStmt = mysqli_prepare($conn, $insertAddressQuery);
 
-    mysqli_stmt_bind_param($stmt, "sssssss", $email, $username, $hashedPassword, $phoneNumber, $address, $postcode, $state);
+      // Hash the password before storing
+      $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    if (!mysqli_stmt_execute($stmt)) {
-      $registerErr = "Error registering your account. Please try again later.";
-    } else {
-      header("Location: ../login/");
+      mysqli_stmt_bind_param($insertCustomerStmt, "ssss", $email, $username, $hashedPassword, $phoneNumber);
+
+      if (!mysqli_stmt_execute($insertCustomerStmt)) {
+        $registerErr = "Error registering your account. Please try again later.";
+        $conn->rollback();
+      } else {
+        $generatedUserId = (int)$conn->insert_id;
+        mysqli_stmt_bind_param($insertAddressStmt, "sssi", $address, $postcode, $state, $generatedUserId);
+        if (!mysqli_stmt_execute($insertAddressStmt)) {
+          $registerErr = "Error registering your account. Please try again later.";
+          $conn->rollback();
+        } else {
+          $conn->commit();
+          header("Location: ../login/");
+        }
+      }
+    } catch (Exception $e) {
+      $conn->rollback();
+      echo "Error occured when registering: " . $e->getMessage();
     }
-    mysqli_stmt_close($stmt);
+
+    isset($insertAddressStmt) && mysqli_stmt_close($insertCustomerStmt);
+    isset($insertCustomerStmt) && mysqli_stmt_close($insertAddressStmt);
   }
 
   mysqli_close($conn);
