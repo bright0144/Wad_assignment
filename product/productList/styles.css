@@ -1,7 +1,96 @@
+.search-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  max-width: 1950px;
+  margin: 200px auto 0 auto;
+}
+
+
+.searchInput {
+  width: 100%;
+  padding: 20px;
+  border-radius: 10px;
+  border: 3px solid white;
+  font-size: 20px;
+}
+
 .no-products-found {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100vw;
     height: 100vh;
+    color: red;
+    font-size: 48px;
 }
+
+
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 100px;
+  padding: 100px;
+  max-width: 2000px;
+  margin: auto;
+}
+
+/* Each card */
+.card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-image {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.card-name {
+  font-size: 50px;
+  margin: 10px 0 5px;
+  color: #333;
+  text-align: center;
+}
+
+
+.card-bottom-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.card-price {
+  font-weight: bold;
+  font-size: 40px;
+  margin-bottom: auto;
+}
+
+.card-stock {
+  font-size: 13px;
+  color: red;
+  margin-top: auto;
+}
+
+.check-card-btn {
+  padding: 10px;
+  background-color: #5c4033;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 7px;
+  font-weight: bold;
+  margin-top: auto;
+}
+
+.check-card-btn:hover {
+    background-color: orange ;
+}
+

@@ -1,27 +1,38 @@
+<!-- Navigate back to Home Page when user is not logged in or session is invalid. -->
+<?php
+session_start(); 
 
+if (!isset($_SESSION['id'])) {
+   header("Location: /Wad_assignment/auth/login/log-out.php");
+   exit(); 
+}
+?>
 
+<!-- Product List Page -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Our Products</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Product Listing</title>
+    <link rel="stylesheet" href="styles.css"/>
   </head>
   <body>
-    <div class="main-container">
-      <h1 class="page-title">Our Trading Card Collection</h1>
 
-      <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search for products...">
-      </div>
+     <?php include("../../header/index.php"); ?>
 
+     <main>
+          <div class="search-container">
+            <input type="text" id="searchInput" class="searchInput" placeholder="Search for products...">
+          </div> 
 
-      <div id="products-container" class="products-container">
-      </div>
-    </div>
+          <div id="products-container" class="products-container">
+          </div>
+    </main>
 
-      <script src="script.js"></script>
+    <?php include("../../footer/index.php"); ?>
+
+    <script src="script.js"></script>
 
   </body>
 </html>

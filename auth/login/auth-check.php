@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-// If not logged in, show the message and login button
-if (!isset($_SESSION['username'])) {
+
+if (!isset($_SESSION['id'])) {
     echo '
     <!DOCTYPE html>
     <html lang="en">

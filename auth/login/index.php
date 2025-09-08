@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $loginErr = "Password is incorrect";
       } else {
         $_SESSION["id"] = $customer_id;
-        header("Location: ../../product/productList/index.php"); 
+        header("Location: ../../index.php"); 
       }
     }
 

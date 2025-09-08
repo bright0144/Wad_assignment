@@ -1,26 +1,12 @@
 <?php
-// Start the session to access user information.
-session_start();
+include_once("../../config/config.php");
 
-// Database connection details.
-// IMPORTANT: Please replace the placeholder values with your actual database credentials.
-$servername = "localhost";
-$db_username = "root";
-$db_password = "";
-$dbname = "test"; // Replace with your database name
+if (!isset($_SESSION["id"])) {
+    http_response_code(404);
+    echo json_encode("User not logged in");
+}
 
-// Set the content type to JSON for a clean response.
-header('Content-Type: application/json');
-
-// Check if the request method is POST.
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Check if the user is authenticated from the session.
-    if (!isset($_SESSION["id"])) {
-        echo json_encode(["status" => "error", "message" => "User not logged in."]);
-        exit();
-    }
-
-    // Sanitize and retrieve POST data.
+  
     $productId = filter_input(INPUT_POST, 'product_id', FILTER_SANITIZE_NUMBER_INT);
     $productPrice = filter_input(INPUT_POST, 'product_price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $productQty = filter_input(INPUT_POST, 'product_quantity', FILTER_SANITIZE_NUMBER_INT);
@@ -66,8 +52,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->close();
     $conn->close();
 
-} else {
-    // Not a POST request.
-    echo json_encode(["status" => "error", "message" => "Invalid request method."]);
-}
+
 ?>

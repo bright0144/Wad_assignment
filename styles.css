@@ -1,27 +1,53 @@
 body {
   margin: 0;
-  padding-top: 120px;  
-  padding-bottom: 80px; 
-  height: 100vh;
-  background: url("image/homepage-image.png") no-repeat center center fixed;
+  /* https://www.w3schools.com/css/css_background_shorthand.asp */
+  background-image: url("image/homepage-image.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
   background-size: cover;  
 }
 
-.homepage-button {
+.container {
   display: flex;
- background: lightblue;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   color: white;
-  font-size: 18px;
-  padding: 12px 24px;
-  border-radius: 6px;
-  text-decoration: none;
-  width: 200px;
-  margin: 650px auto 0 auto;
+  width: auto;
+  padding: 40px;
+  margin: 800px auto 0 auto;
+}
+
+.container .title {
+  font-size: 70px;
+  font-weight: 850;
+  color: white;
   text-align: center;
+  margin-bottom: 30px;
+  font-family: 'Comic Sans MS';
+}
+
+.homepage-button {
+  background-color: brown;
+  color: white;
+  text-decoration: none;
+  padding: 24px 36px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 200px;
+  height: 30px;
+  border-radius: 5;
+  text-align: center;
+
 }
 
 .homepage-button:hover {
-  background: blue;
+  background: peachpuff;
+  padding: 24px 48px;
+  color: orange;
 }
 
 

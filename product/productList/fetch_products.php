@@ -1,32 +1,14 @@
 <?php
-// Set headers to allow cross-origin requests and specify JSON content type
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
+//Necessary database connection
+include_once("../../config/config.php");
 
-// IMPORTANT: Replace with your actual database credentials
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "test"; // Use the name of your database schema
-
-// Get search query and page number from the request
+//Get Params from URL (limit 10 in each query)
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
 $limit = 10;
 $offset = ($page - 1) * $limit;
 
-// Create database connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    http_response_code(500);
-    echo json_encode(array("message" => "Connection failed: " . $conn->connect_error));
-    exit();
-}
-
-// SQL query to select products with a JOIN on product_category and a LIKE clause for searching
-// The JOIN is used to search by category name as well as product name.
+//sql query
 $sql = "
     SELECT 
         p.product_id, 
@@ -46,40 +28,23 @@ $sql = "
     LIMIT ? OFFSET ?
 ";
 
-// Prepare the statement to prevent SQL injection
 $stmt = $conn->prepare($sql);
-if ($stmt === false) {
-    http_response_code(500);
-    echo json_encode(array("message" => "Error preparing statement: " . $conn->error));
-    exit();
-}
-
-// Bind parameters for the prepared statement
-// 'ssii' stands for two strings (search terms) and two integers (limit, offset)
-$searchTerm = '%' . $searchQuery . '%';
-$stmt->bind_param("ssii", $searchTerm, $searchTerm, $limit, $offset);
-
-// Execute the query
+$sqlLike = '%' . $searchQuery . '%';
+$stmt->bind_param("ssii", $sqlLike, $sqlLike, $limit, $offset);
 $stmt->execute();
 $result = $stmt->get_result();
 
-$products_array = array();
-
-if ($result->num_rows > 0) {
-    // Loop through results and push each row into the array
+if ($result-> num_rows > 0) {
     while($row = $result->fetch_assoc()) {
-        $products_array[] = $row;
+        $cards[] = $row;
     }
-    // Return the product data as a JSON array
     http_response_code(200);
-    echo json_encode($products_array);
+    echo json_encode($cards);
 } else {
-    // Return a JSON object if no products are found
     http_response_code(404);
-    echo json_encode(array("message" => "No products found."));
+    echo json_encode(array("message" => "No cards found."));
 }
 
-// Close the statement and database connection
 $stmt->close();
 $conn->close();
 ?>

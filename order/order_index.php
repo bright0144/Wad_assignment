@@ -1,18 +1,6 @@
 <?php
-// Start the session to access user information.
-session_start();
+include_once("../../config/config.php");
 
-// Database connection details.
-// IMPORTANT: Please replace the placeholder values with your actual database credentials.
-$servername = "localhost";
-$db_username = "root";
-$db_password = "";
-$dbname = "test"; // Replace with your database name
-
-// Set the content type to JSON for a clean response.
-header('Content-Type: application/json');
-
-// Check if the user is authenticated from the session.
 if (!isset($_SESSION["id"])) {
     echo json_encode(["status" => "error", "message" => "User not logged in."]);
     exit();
@@ -20,14 +8,6 @@ if (!isset($_SESSION["id"])) {
 
 $cust_id = $_SESSION["id"];
 
-// Create a new database connection.
-$conn = new mysqli($servername, $db_username, $db_password, $dbname);
-
-// Check the connection.
-if ($conn->connect_error) {
-    echo json_encode(["status" => "error", "message" => "Connection failed: " . $conn->connect_error]);
-    exit();
-}
 
 try {
     if ($_SERVER["REQUEST_METHOD"] === "GET") {
