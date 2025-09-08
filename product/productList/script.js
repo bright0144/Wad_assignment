@@ -2,6 +2,7 @@
 window.onload = function () {
   //Initial function call to fetch cards
   fetchCardFromDB();
+}
   // fetchCategoryFromDB();
 
   //cards
@@ -111,4 +112,4 @@ window.onload = function () {
 
     productsContainer.appendChild(paginationContainer);
   }
-};
+
