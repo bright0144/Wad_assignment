@@ -37,6 +37,7 @@ if (isset($_SESSION['id'])) {
                 <?php if ($loginStatus === 'success'): ?>
                     <li><a href="/Wad_assignment/product/productList/index.php">Product</a></li>
                     <li><a href="/Wad_assignment/cart/index.php">Cart</a></li>
+                    <li><a href="/Wad_assignment/order/index.php">Order</a></li>
                     <li>
                         <a href="/Wad_assignment/auth/login/log-out.php" class="logout-link">Logout</a>
                     </li>
