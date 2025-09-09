@@ -1,0 +1,151 @@
+body {
+  background: gray;
+  color: white;
+}
+.cartTitle {
+  margin-top: 150px;
+  text-align: center;
+  font-size: 50px;
+  color: black;
+  margin-bottom: 15px;
+}
+
+#cartContainer {
+  margin: 20px auto;
+  max-width: 1000px;
+}
+
+.cartTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.cartTable thead {
+  background-color: #5c4033;
+  color: white;
+}
+
+.cartTable th,
+.cartTable td {
+  padding: 12px 15px;
+  text-align: center;
+  border-bottom: 1px solid white;
+}
+
+.cartTable tbody tr:hover {
+  background-color: lightblue;
+}
+
+.itemSelectCheckbox {
+  cursor: pointer;
+}
+
+.increaseButton,
+.decreaseButton {
+  border: none;
+  font-size: 20px;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.increaseButton:hover,
+.decreaseButton:hover {
+  background-color: blue;
+}
+
+input[type="number"] {
+  border: 1px solid white;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 50px;
+  height: 30px;
+  text-align: center;
+  background-color: white;
+}
+
+.deleteButton {
+  background-color: #dc3545;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.deleteButton:hover {
+  background-color: #a71d2a;
+}
+
+h3 {
+  text-align: center;
+  font-size: 30px;
+  color: black;
+  margin-bottom: 15px;
+}
+
+#totalPrice {
+  color: black;
+}
+
+.addressContainer {
+  max-width: 900px;
+  margin: 20px auto 10px auto;
+  text-align: center;
+}
+
+label[for="addressSelection"] {
+  display: block;
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: black;
+}
+
+#addressSelection {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px 12px;
+  font-size: 20px;
+  border: 1px solid white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#checkoutButton {
+  display: block;
+  margin: 25px auto 0 auto;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  max-width: 300px;
+  width: 100%;
+  text-align: center;
+}
+
+#checkoutButton:hover {
+  background-color: lightblue;
+}
+
+@media screen and (max-width: 768px) {
+  .cartTable th,
+  .cartTable td {
+    font-size: 14px;
+    padding: 10px 8px;
+  }
+
+  #addressSelection {
+    width: 100%;
+    max-width: none;
+  }
+
+  #checkoutButton {
+    width: 100%;
+  }
+}

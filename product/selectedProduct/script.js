@@ -119,10 +119,13 @@ function getReview(productId) {
         return;
       }
 
+      //console.log("Reviews: ", reviews);
+      
+
       //display review
       reviews.forEach((review) => {
         const likeIcon = "♥";
-        const likeCount = review.likeCount;
+        const likeCount = review.like_count;
 
         const reviewDiv = document.createElement("div");
         reviewDiv.className = "review-item";

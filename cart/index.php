@@ -1,33 +1,51 @@
+<!-- Navigate back to Home Page when user is not logged in or session is invalid. -->
+<?php
+session_start(); 
+
+if (!isset($_SESSION['id'])) {
+   header("Location: /Wad_assignment/auth/login/log-out.php");
+   exit(); 
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
+    <link rel="stylesheet" href="styles.css" />
+
 </head>
 <body>
-    <h1>My Shopping Cart</h1>
-    
-    <!-- Container where cart items will be displayed -->
-    <h2>Cart Items</h2>
-    <div id="cart-items-container">
-        <p>Loading cart items...</p>
-    </div>
+           <?php include("../header/index.php"); ?>
+           <main>
 
-    <!-- New elements for total price and checkout button -->
-    <hr>
-    <h3>Total: <span id="total-price">$0.00</span></h3>
-    <button id="checkout-btn">Checkout</button>
+               <h1 class ="cartTitle"> Shopping Cart</h1>
+               
+               <div id="cartContainer">
+                   <p>Loading cart items...</p>
+               </div>
+           
+           
+               <hr>
+               <h3>Total: <span id="totalPrice"></span></h3>
+               <div class ="addressContainer">
+                   <label for= "addressSelection" >Select Delivery Address:</label>
+                  <select id="addressSelection">
+                      <option value="">Loading addresses...</option>
+                  </select>
+                </div>
+                <button id="checkoutButton">Checkout</button>
+           </main>
 
- <label for="addressSelect">Select Delivery Address:</label>
-<select id="addressSelect">
-    <option value="">Loading addresses...</option>
-</select>
+              <?php include("../footer/index.php"); ?>
 
 
 
 
-    <!-- Link to the JavaScript file -->
+
+
     <script src="script.js"></script>
 </body>
 </html>

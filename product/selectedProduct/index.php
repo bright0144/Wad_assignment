@@ -21,18 +21,20 @@ if (!isset($_SESSION['id'])) {
   <body>
 
        <?php include("../../header/index.php"); ?>
+       <main>
+                <!-- Card details -->
+               <h1 class="cardTitle">Product Details</h1>
+               <div id="cardDetailsContainer">
+               </div>
+               <div id="statusMessage"></div>
+               <!-- Card reviews -->
+                 <h1 class ="reviewTitle">Product Reviews</h1>
+                 <div id="productReviewsContainer">
+                 </div>
+               <!-- Error message -->
+       </main>
 
 
-       <!-- Card details -->
-      <h1 class="cardTitle">Product Details</h1>
-      <div id="cardDetailsContainer">
-      </div>
-      <div id="statusMessage"></div>
-      <!-- Card reviews -->
-        <h1 class ="reviewTitle">Product Reviews</h1>
-        <div id="productReviewsContainer">
-        </div>
-      <!-- Error message -->
 
           <?php include("../../footer/index.php"); ?>
 
