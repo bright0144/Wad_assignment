@@ -28,6 +28,9 @@ if (!isset($_SESSION['id'])) {
 
           <div id="products-container" class="products-container">
           </div>
+
+          <div id="pagination-container" class ="pagination-container">
+          </div>
     </main>
 
     <?php include("../../footer/index.php"); ?>

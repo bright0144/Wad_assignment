@@ -6,6 +6,7 @@ body {
   background-position: center center;
   background-attachment: fixed;
   background-size: cover;  
+  background-color: transparent;
 }
 
 .container {
@@ -16,7 +17,7 @@ body {
   color: white;
   width: auto;
   padding: 40px;
-  margin: 650px auto 0 auto;
+  margin: 700px auto 0 auto;
 }
 
 .container .title {

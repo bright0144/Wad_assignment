@@ -37,7 +37,15 @@ window.onload = function () {
         )}&page=${page}`
       );
 
-      const cards = await response.json();
+      const responseJson = await response.json();
+        // Access the cards array
+        const cards = responseJson.cards;
+        
+        // Access the total row count
+        const totalRows = responseJson.total_rows;
+
+        console.log('Cards:', cards);
+        console.log('Total Rows:', totalRows);
       productsContainer.innerHTML = "";
 
       //no cards found in database
@@ -76,7 +84,7 @@ window.onload = function () {
         productsContainer.appendChild(product);
       });
 
-      pagination(cards.length);
+      pagination(totalRows);
     } catch (error) {
       console.error("Error : ", error);
       productsContainer.innerHTML =
@@ -84,32 +92,31 @@ window.onload = function () {
     }
   }
 
-  //Pagination button and features
-  function pagination(cardCount) {
-    const paginationContainer = document.createElement("div");
-    paginationContainer.className = "pagination-container";
+  //Pagination button and feature
+function pagination(totalRows) {
+  const paginationContainer = document.getElementById("pagination-container");
 
-    //Current Page not first page display previous button
-    if (currentPage > 1) {
-      const prevButton = document.createElement("button");
-      prevButton.textContent = "Previous";
-      prevButton.addEventListener("click", function () {
-        currentPage--;
-        fetchCardFromDB(searchInput.value, currentPage);
-      });
-      paginationContainer.appendChild(prevButton);
-    }
+  paginationContainer.innerHTML = "";
 
-    if (cardCount === 10) {
-      const nextButton = document.createElement("button");
-      nextButton.textContent = "Next";
-      nextButton.addEventListener("click", () => {
-        currentPage++;
-        fetchCardFromDB(searchInput.value, currentPage);
-      });
-      paginationContainer.appendChild(nextButton);
-    }
-
-    productsContainer.appendChild(paginationContainer);
+  if (currentPage > 1) {
+    const prevButton = document.createElement("button");
+    prevButton.textContent = "Previous";
+    prevButton.addEventListener("click", function () {
+      currentPage--;
+      fetchCardFromDB(searchInput.value, currentPage);
+    });
+    paginationContainer.appendChild(prevButton);
   }
+
+  if (totalRows > currentPage * 10) {
+    const nextButton = document.createElement("button");
+    nextButton.textContent = "Next";
+    nextButton.addEventListener("click", () => {
+      currentPage++;
+      fetchCardFromDB(searchInput.value, currentPage);
+    });
+    paginationContainer.appendChild(nextButton);
+  }
+}
+
 

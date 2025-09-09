@@ -8,7 +8,34 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $limit = 10;
 $offset = ($page - 1) * $limit;
 
-//sql query
+//validate page
+if (!is_numeric($page) || $page < 1) {
+    http_response_code(400); 
+    echo json_encode(array("message" => "Invalid page."));
+    exit;
+}
+
+
+//sql query for total row pagination
+$totalSql =  "
+    SELECT 
+       count(*) AS total_rows
+    FROM 
+        product p
+    LEFT JOIN 
+        product_category pc ON p.category_id = pc.category_id
+    WHERE 
+        p.product_name LIKE ? OR pc.category_name LIKE ?
+";
+$totalStmt = $conn->prepare($totalSql);
+$sqlLike = '%' . $searchQuery . '%';
+$totalStmt->bind_param("ss", $sqlLike, $sqlLike);
+$totalStmt->execute();
+$totalResult = $totalStmt->get_result();
+$totalRows = $totalResult->fetch_assoc()['total_rows'];
+$totalStmt->close();
+
+//sql query for actual cards
 $sql = "
     SELECT 
         p.product_id, 
@@ -39,7 +66,11 @@ if ($result-> num_rows > 0) {
         $cards[] = $row;
     }
     http_response_code(200);
-    echo json_encode($cards);
+    $response = [
+    "total_rows" => $totalRows,
+    "cards" => $cards
+    ];
+    echo json_encode($response);
 } else {
     http_response_code(404);
     echo json_encode(array("message" => "No cards found."));
