@@ -2,37 +2,103 @@
 //Necessary database connection
 include_once("../../config/config.php");
 
-//Get Params from URL (limit 10 in each query)
-$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
-$page = isset($_GET['page']) ? $_GET['page'] : 1;
+// Item limited to 10 item per query
 $limit = 10;
-$offset = ($page - 1) * $limit;
 
-//validate page
+// Get all the query params
+
+// Get the search query
+$searchQuery = isset($_GET['search']) ? trim($_GET['search']) : '';
+// Get the page and validate
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 if (!is_numeric($page) || $page < 1) {
-    http_response_code(400); 
-    echo json_encode(array("message" => "Invalid page."));
-    exit;
+  $page = 1;
+}
+// Get the category
+$category = isset($_GET['category']) ? (int) $_GET['category'] : null;
+// Get the min and max price and validate
+$minPrice = isset($_GET['minPrice']) ? (float) $_GET['minPrice'] : null;
+$maxPrice = isset($_GET['maxPrice']) ? (float) $_GET['maxPrice'] : null;
+
+
+// Make sure min price is < max price
+if ($minPrice !== null && $maxPrice !== null && $maxPrice < $minPrice) {
+  // Swap them here
+  [$minPrice, $maxPrice] = [$maxPrice, $minPrice];
 }
 
 
-//sql query for total row pagination
-$totalSql =  "
+// Get sort item and type validate
+$sortItem = isset($_GET['sortItem']) ? strtolower($_GET['sortItem']) : 'product_name';
+$sortType = isset($_GET['sortType']) ? strtoupper($_GET['sortType']) : 'ASC';
+
+$validSortItem = ["product_name", "product_price", "stock_qty", "category_name"];
+$validSortType = ["ASC", "DESC"];
+
+// Set default value for invalid input
+if (!in_array($sortItem, $validSortItem)) {
+  $sortItem = $validSortItem[0];
+}
+
+if (!in_array($sortType, $validSortType)) {
+  $sortType = $validSortType[0];
+}
+
+// Calculate the offset
+$offset = ($page - 1) * $limit;
+
+// SQL query for total row pagination
+$totalSql = "
     SELECT 
        count(*) AS total_rows
     FROM 
         product p
     LEFT JOIN 
         product_category pc ON p.category_id = pc.category_id
-    WHERE 
-        p.product_name LIKE ? OR pc.category_name LIKE ?
+    WHERE 1=1
 ";
+
+$params = [];
+$types = "";
+
+// Append product name query
+if (!empty($searchQuery)) {
+  $sqlLike = '%' . $searchQuery . '%';
+  $totalSql .= " AND p.product_name LIKE ?";
+  $params[] = $sqlLike;
+  $types .= "s";
+}
+
+// Append category name
+if (!empty($category) && $category !== "all") {
+  $totalSql .= " AND pc.category_id = ?";
+  $params[] = $category;
+  $types .= "i";
+}
+
+// Append min price
+if ($minPrice !== null) {
+  $totalSql .= " AND p.product_price >= ?";
+  $params[] = $minPrice;
+  $types .= "d";
+}
+
+// Append max price
+if ($maxPrice !== null && $maxPrice > 0) {
+  $totalSql .= " AND p.product_price <= ?";
+  $params[] = $maxPrice;
+  $types .= "d";
+}
+
 $totalStmt = $conn->prepare($totalSql);
-$sqlLike = '%' . $searchQuery . '%';
-$totalStmt->bind_param("ss", $sqlLike, $sqlLike);
+if (!empty($params)) {
+  $totalStmt->bind_param($types, ...$params);
+}
+
 $totalStmt->execute();
 $totalResult = $totalStmt->get_result();
 $totalRows = $totalResult->fetch_assoc()['total_rows'];
+
 $totalStmt->close();
 
 //sql query for actual cards
@@ -55,27 +121,62 @@ $sql = "
     LIMIT ? OFFSET ?
 ";
 
+$params = [];
+$types = "";
+
+// Append product name query
+if (!empty($searchQuery)) {
+  $sqlLike = '%' . $searchQuery . '%';
+  $sql .= " AND p.product_name LIKE ?";
+  $params[] = $sqlLike;
+  $types .= "s";
+}
+
+// Append category name
+if (!empty($category)) {
+  $sql .= " AND pc.category_id = ?";
+  $params[] = $category;
+  $types .= "i";
+}
+
+// Append min price (only if set)
+if ($minPrice !== null) {
+  $sql .= " AND p.product_price >= ?";
+  $params[] = $minPrice;
+  $types .= "d"; // better to use "d" for float
+}
+
+// Append max price (only if set)
+if ($maxPrice !== null && $maxPrice > 0) {
+  $sql .= " AND p.product_price <= ?";
+  $params[] = $maxPrice;
+  $types .= "d"; // float again
+}
+
+// Append sort item and type
+$sql .= " ORDER BY $sortItem $sortType";
+
+// Add pagination
+$sql .= " LIMIT ? OFFSET ?";
+$params[] = $limit;
+$params[] = $offset;
+$types .= "ii";
+
 $stmt = $conn->prepare($sql);
-$sqlLike = '%' . $searchQuery . '%';
-$stmt->bind_param("ssii", $sqlLike, $sqlLike, $limit, $offset);
+$stmt->bind_param($types, ...$params);
 $stmt->execute();
 $result = $stmt->get_result();
+$cards = [];
 
-if ($result-> num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        $cards[] = $row;
-    }
-    http_response_code(200);
-    $response = [
-    "total_rows" => $totalRows,
-    "cards" => $cards
-    ];
-    echo json_encode($response);
-} else {
-    http_response_code(404);
-    echo json_encode(array("message" => "No cards found."));
+while ($row = $result->fetch_assoc()) {
+  $cards[] = $row;
 }
+http_response_code(200);
+$response = [
+  "total_rows" => $totalRows,
+  "cards" => $cards
+];
+echo json_encode($response);
 
 $stmt->close();
 $conn->close();
-?>

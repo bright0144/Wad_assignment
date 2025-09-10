@@ -9,6 +9,7 @@ window.onload = function () {
   const productDescription = urlParams.get("product_description");
   const productPrice = urlParams.get("product_price");
   const productQuantity = urlParams.get("product_quantity");
+  const productImg = urlParams.get("product_img");
 
   //fetch review
   getReview(productId);
@@ -20,22 +21,45 @@ window.onload = function () {
     productName &&
     productDescription &&
     productPrice &&
-    productQuantity
+    productQuantity &&
+    productImg
   ) {
     cardDetailsContainer.innerHTML = `
-            <h2 class ="productName">${productName}</h2>
-            <p class ="productDescription">Description: ${productDescription}</p>
-            <p class ="productPrice">Price: RM ${productPrice}</p>
-            <p class ="productQuantity">Stock: ${productQuantity}</p>
+          <div class="flex flex-col md:flex-row gap-6 p-6 bg-white rounded-xl shadow-lg">
+              <!-- Card image -->
+          <div class="product-image-container md:w-1/2 flex justify-center">
+            <img src="https://placehold.co/400x400/1f2937/FFFFFF?text=hello" alt="${productImg}" class="rounded-lg shadow-md object-cover" />
+          </div>
+            <!-- Card details -->
+            <div class="md:w-1/2 flex flex-col gap-4 justify-center">
+              <h2 class="text-2xl font-bold text-gray-800">${productName}</h2>
+              <p class="text-gray-600">${productDescription}</p>
+              <p class="text-2xl font-semibold">RM ${productPrice}</p>
+              <p class="productQuantity text-gray-500">Stock: ${productQuantity}</p>
 
-            <div>
-              Quantity:
-              <button id="decreaseQuantity">–</button>
-              <input type="number" id="quantityInput" value="1" min="1" max="${productQuantity}" />
-              <button id="increaseQuantity">+</button>
+              <!-- Select quantity -->
+              <div class="flex items-center gap-3">
+                <span class="font-medium">Quantity:</span>
+                <button id="decreaseQuantity" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-lg">–</button>
+                <input 
+                  type="number" 
+                  id="quantityInput" 
+                  value="1" 
+                  min="1" 
+                  max="${productQuantity}" 
+                  class="w-16 text-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                />
+                <button id="increaseQuantity" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-lg">+</button>
+              </div>
+
+              <!-- Add to Cart button -->
+              <button 
+                id="addToCartButton" 
+                class="mt-6 w-full md:w-auto px-6 py-3 bg-red-500 text-white font-semibold rounded-lg shadow hover:opacity-70 transition">
+                Add to Cart
+              </button>
             </div>
-
-            <button id="addToCartButton">Add to Cart</button>
+          </div>
           `;
 
     //Modify quantity
@@ -81,7 +105,7 @@ window.onload = function () {
       })
         .then((response) => response.json())
         .then((response) => {
-          //display error message if error 
+          //display error message if error
           addToCartStatus.textContent = response.message;
           //Only display navigate button when successfully add to card
           if (response.status === "success") {
@@ -120,7 +144,6 @@ function getReview(productId) {
       }
 
       //console.log("Reviews: ", reviews);
-      
 
       //display review
       reviews.forEach((review) => {
@@ -128,21 +151,28 @@ function getReview(productId) {
         const likeCount = review.like_count;
 
         const reviewDiv = document.createElement("div");
-        reviewDiv.className = "review-item";
+        reviewDiv.className = "review-item p-4 bg-white rounded-lg shadow mb-4";
+
         reviewDiv.innerHTML = `
-    <p class="reviewUsername">${review.username} on ${new Date(
-          review.product_review_date
-        ).toLocaleDateString()}</p>
-    <p class="reviewActualComment">${review.comment}</p>
-    <button
-      class="likeButton"
-      data-review-id="${review.product_review_id}"
-      data-liked="${review.likedByUser}"
-    >
-      ${likeIcon} (${likeCount})
-    </button>
-    <hr>
-  `;
+              <p class="font-semibold text-gray-800 mb-1">
+                ${review.username} 
+                <span class="text-sm text-gray-500">on ${new Date(
+                  review.product_review_date
+                ).toLocaleDateString()}</span>
+              </p>
+
+              <p class="text-gray-700 mb-3">${review.comment}</p>
+
+              <button
+                class="likeButton inline-flex items-center gap-1 px-3 py-1 rounded-full border border-gray-300 text-gray-600 hover:bg-red-50 hover:text-red-500 transition"
+                data-review-id="${review.product_review_id}"
+                data-liked="${review.liked_by_user}"
+              >
+                ${likeIcon} <span class="font-medium">${likeCount}</span>
+              </button>
+
+              <hr class="mt-4 border-gray-200">
+            `;
         productReviewsContainer.appendChild(reviewDiv);
 
         //The like icon is red when user is liked, else white
@@ -164,7 +194,7 @@ function toogleLike() {
   //event listener to al buttons
   const allLikeButtons = document.querySelectorAll(".likeButton");
   allLikeButtons.forEach((button) => {
-    button.addEventListener("click", () => {
+    button.addEventListener("click", (e) => {
       const productReviewId = button.dataset.reviewId;
       const isLiked = button.dataset.liked === "true";
 
@@ -175,8 +205,8 @@ function toogleLike() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          productReviewId: productReviewId,
-          isLiked: isLiked,
+          productReviewId,
+          isLiked,
         }),
       })
         .then((responseJson) => responseJson.json())
@@ -191,7 +221,7 @@ function toogleLike() {
             "An error occurred while toggling like. The page will be refreshed."
           );
           console.error("Error toggling like:", error);
-          window.location.reload();
+          // window.location.reload();
         });
     });
   });

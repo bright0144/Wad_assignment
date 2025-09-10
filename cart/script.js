@@ -124,18 +124,18 @@ function fetchCartFromDB() {
       table.classList.add("cartTable"); 
 
       table.innerHTML = `
-    <thead>
-      <tr>
-        <th>Select</th>
-        <th>Product Name</th>
-        <th>Price (RM)</th>
-        <th>Quantity</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  `;
+          <thead>
+            <tr>
+              <th>Select</th>
+              <th>Product Name</th>
+              <th>Unit Price (RM)</th>
+              <th>Quantity</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+      `;
 
       const tbody = table.querySelector("tbody");
 
@@ -144,24 +144,24 @@ function fetchCartFromDB() {
         const row = document.createElement("tr");
 
         row.innerHTML = `
-      <td>
-        <input type="checkbox" class="itemSelectCheckbox" 
-          data-cart-id="${cartItem.cart_item_id}" 
-          data-product-id="${cartItem.product_id}"
-          data-price="${cartItem.cart_item_price}" 
-          data-quantity="${cartItem.cart_item_qty}" />
-      </td>
-      <td>${cartItem.product_name}</td>
-      <td> RM ${cartItem.cart_item_price}</td>
-      <td>
-        <button class="decreaseButton" data-id="${cartItem.cart_item_id}">–</button>
-        <input type="number" id="${cartItem.cart_item_id}" value="${cartItem.cart_item_qty}" min="1" disabled style="width: 50px; text-align: center;" />
-        <button class="increaseButton" data-id="${cartItem.cart_item_id}">+</button>
-      </td>
-      <td>
-        <button class="deleteButton" data-id="${cartItem.cart_item_id}">Remove</button>
-      </td>
-    `;
+          <td>
+            <input type="checkbox" class="itemSelectCheckbox" 
+              data-cart-id="${cartItem.cart_item_id}" 
+              data-product-id="${cartItem.product_id}"
+              data-price="${cartItem.cart_item_price}" 
+              data-quantity="${cartItem.cart_item_qty}" />
+          </td>
+          <td>${cartItem.product_name}</td>
+          <td> RM ${cartItem.cart_item_price}</td>
+          <td>
+            <button class="decreaseButton" data-id="${cartItem.cart_item_id}">–</button>
+            <input type="number" id="${cartItem.cart_item_id}" value="${cartItem.cart_item_qty}" min="1" disabled style="width: 50px; text-align: center;" />
+            <button class="increaseButton" data-id="${cartItem.cart_item_id}">+</button>
+          </td>
+          <td>
+            <button class="deleteButton" data-id="${cartItem.cart_item_id}">Remove</button>
+          </td>
+        `;
 
         tbody.appendChild(row);
       });
