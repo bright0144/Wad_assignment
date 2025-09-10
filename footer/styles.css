@@ -8,7 +8,8 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  
+  margin-top: auto;
+  align-self: flex-end;
+  font-family: 'Poppins', sans-serif;
 }
 

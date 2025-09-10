@@ -1,46 +1,51 @@
 <!-- Navigate back to Home Page when user is not logged in or session is invalid. -->
 <?php
-session_start(); 
+session_start();
 
 if (!isset($_SESSION['id'])) {
-   header("Location: /Wad_assignment/auth/login/log-out.php");
-   exit(); 
+  header("Location: /Wad_assignment/auth/login/log-out.php");
+  exit();
 }
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Product Details</title>
-    <link rel="stylesheet" href="styles.css"/>
 
-  </head>
-  <body>
-
-       <?php include("../../header/index.php"); ?>
-       <main>
-                <!-- Card details -->
-               <h1 class="cardTitle">Product Details</h1>
-               <div id="cardDetailsContainer">
-               </div>
-               <div id="statusMessage"></div>
-               <!-- Card reviews -->
-                 <h1 class ="reviewTitle">Product Reviews</h1>
-                 <div id="productReviewsContainer">
-                 </div>
-               <!-- Error message -->
-       </main>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Details</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
 
+</head>
 
-          <?php include("../../footer/index.php"); ?>
+<body>
 
+  <?php include("../../header/index.php"); ?>
+  <main class="pt-[350px] md:pt-[150px]">
+    <!-- Card details -->
+    <div id="cardDetailsContainer" class="flex"></div>
+    <div id="statusMessage" class="mt-4 text-center text-sm text-gray-500"></div>
 
+    <!-- Card reviews -->
+    <h1 class="reviewTitle text-2xl font-semibold text-gray-800 mt-12 mb-6 border-b pb-2">
+      Product Reviews
+    </h1>
+    <div id="productReviewsContainer" class="space-y-4 mb-[100px] md:mb-0">
+    </div>
 
-    <script src="script.js"></script>
+    <!-- Error message (hidden by default) -->
+    <div id="errorMessage" class="hidden mt-6 text-center text-red-500 font-medium"></div>
+  </main>
 
-  </body>
+  <?php include("../../footer/index.php"); ?>
+
+  <script src="script.js"></script>
+
+</body>
+
 </html>
