@@ -1,123 +1,153 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const ordersContainer = document.getElementById("orders-container");
 
-    // Message modal elements
-    const messageModal = document.getElementById("message-modal");
-    const messageText = document.getElementById("message-text");
-    const modalOkBtn = document.getElementById("modal-ok-btn");
+window.onload = function () {
+  fetch('order_data.php')
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        renderOrders(data.orders);
+      }
+    })
+    .catch(error => console.error('Error fetching orders:', error));
 
-    // Confirmation modal elements
-    const confirmationModal = document.getElementById("confirmation-modal");
-    const confirmText = document.getElementById("confirm-text");
-    const confirmYesBtn = document.getElementById("confirm-yes-btn");
-    const confirmNoBtn = document.getElementById("confirm-no-btn");
+  function renderOrders(orders) {
+    const container = document.getElementById('orderContainer');
+    if (!orders.length) {
+      const noOrders = document.createElement('p');
+      noOrders.className = 'noOrders';
+      noOrders.textContent = "You have no orders.";
+      container.appendChild(noOrders);
+      return;
+    }
 
-    // Function to show a custom message or confirmation modal
-    const showMessage = (text, isConfirmation, onConfirm) => {
-        if (isConfirmation) {
-            confirmText.textContent = text;
-            confirmationModal.style.display = 'flex';
+    const currentDate = new Date();
+    const oneDay = 24 * 60 * 60 * 1000;
 
-            // Set up button listeners for confirmation
-            confirmYesBtn.onclick = () => {
-                confirmationModal.style.display = 'none';
-                if (onConfirm) onConfirm(true);
-            };
-            confirmNoBtn.onclick = () => {
-                confirmationModal.style.display = 'none';
-                if (onConfirm) onConfirm(false);
-            };
-        } else {
-            messageText.textContent = text;
-            messageModal.style.display = 'flex';
-            modalOkBtn.onclick = () => {
-                messageModal.style.display = 'none';
-            };
-        }
-    };
+    orders.forEach(order => {
+      const orderDiv = document.createElement('div');
+      orderDiv.className = 'orderCard';
 
-    // Function to fetch orders from the PHP backend
-    const fetchOrders = async () => {
-        ordersContainer.innerHTML = `<p>Loading orders...</p>`;
-        try {
-            const response = await fetch('order_index.php', { method: 'GET' });
-            const data = await response.json();
+      const orderInfo = document.createElement('p');
+      orderInfo.className = 'orderInfo';
+      orderInfo.textContent = `Order #${order.order_id} | Date: ${order.order_date} | Status: ${order.order_status} | Total: $${order.total_amt}`;
+      orderDiv.appendChild(orderInfo);
 
-            if (data.status === "success") {
-                renderOrders(data.orders);
+      const address = document.createElement('p');
+      address.className = 'orderAddress';
+      address.textContent = `Shipping Address: ${order.address}`;
+      orderDiv.appendChild(address);
+
+      const itemList = document.createElement('ul');
+      itemList.className = 'orderItems';
+      order.items.forEach(item => {
+        const itemLi = document.createElement('li');
+        itemLi.className = 'orderItem';
+        itemLi.textContent = `Product ID: ${item.product_id}, Quantity: ${item.order_item_qty}, Price: $${item.order_item_price}`;
+        itemList.appendChild(itemLi);
+      });
+
+      orderDiv.appendChild(itemList);
+
+      const buttonContainer = document.createElement('div');
+      buttonContainer.className = 'orderButtonContainer';
+
+      // === Remove Button ===
+      const removeBtn = document.createElement('button');
+      removeBtn.textContent = "Remove Order";
+      removeBtn.className = 'removeOrderBtn';
+      removeBtn.onclick = function () {
+        if (confirm(`Are you sure you want to remove Order #${order.order_id}?`)) {
+          fetch(`order_data.php?orderId=${order.order_id}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+          })
+          .then(res => res.json())
+          .then(result => {
+            if (result.status === 'success') {
+              alert(result.message);
+              orderDiv.remove();
             } else {
-                ordersContainer.innerHTML = `<p style="color: red;">Error: ${data.message}</p>`;
+              alert(result.message);
             }
-        } catch (error) {
-            console.error("Error fetching orders:", error);
-            ordersContainer.innerHTML = `<p style="color: red;">An error occurred while loading orders. Please try again.</p>`;
+          })
+          .catch(err => {
+            console.error('Delete failed:', err);
+            alert("Error deleting order.");
+          });
         }
-    };
+      };
+      buttonContainer.appendChild(removeBtn);
 
-    // Function to render the orders on the page
-    const renderOrders = (orders) => {
-        if (orders.length === 0) {
-            ordersContainer.innerHTML = "<p>You have not placed any orders yet.</p>";
-            return;
-        }
+      // === Review Button ===
+      const reviewBtn = document.createElement('button');
+      reviewBtn.textContent = "Review Order";
+      reviewBtn.className = 'reviewOrderBtn';
+      reviewBtn.onclick = function () {
+        // This can be expanded to show a modal or redirect to a form
+        const comment = prompt("Enter your review:");
+        if (comment) {
+          const firstItem = order.items[0]; // Assume reviewing first item
+          const productId = firstItem.product_id;
 
-        ordersContainer.innerHTML = ''; // Clear the loading message
-
-        orders.forEach(order => {
-            const orderDiv = document.createElement('div');
-            orderDiv.style.border = '1px solid #ccc';
-            orderDiv.style.padding = '15px';
-            orderDiv.style.marginBottom = '10px';
-
-            orderDiv.innerHTML = `
-                <h3>Order #${order.order_id}</h3>
-                <p><strong>Order Date:</strong> ${new Date(order.order_date).toLocaleString()}</p>
-                <p><strong>Order Status:</strong> ${order.order_status}</p>
-                <p><strong>Total Amount:</strong> $${parseFloat(order.total_amt).toFixed(2)}</p>
-                <p><strong>Shipping Address:</strong> ${order.address}</p>
-            `;
-
-            // Check if the order is cancellable and add the button
-            if (order.cancellable) {
-                const cancelButton = document.createElement('button');
-                cancelButton.textContent = "Cancel Order";
-                cancelButton.style.marginTop = '10px';
-                cancelButton.onclick = () => {
-                    showMessage("Are you sure you want to cancel this order?", true, (confirmed) => {
-                        if (confirmed) {
-                            cancelOrder(order.order_id);
-                        }
-                    });
-                };
-                orderDiv.appendChild(cancelButton);
+          fetch('order_data.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'addReview',
+              comment: comment,
+              productId: productId
+            })
+          })
+          .then(res => res.json())
+          .then(result => {
+            if(result.status === 'success'){
+                alert(result.message);
+            } else {
+                alert(result.message);
             }
+          })
+          .catch(err => {
+            console.error("Error submitting review:", err);
+            alert("Review failed.");
+          });
+        }
+      };
+      buttonContainer.appendChild(reviewBtn);
 
-            ordersContainer.appendChild(orderDiv);
-        });
-    };
+      // === Cancel Button ===
+      const orderDate = new Date(order.order_date);
+      const timeDiff = currentDate - orderDate;
 
-    // Function to cancel an order
-    const cancelOrder = async (orderId) => {
-        try {
-            const response = await fetch('order_index.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ order_id: orderId })
+      if (timeDiff <= oneDay && order.order_status === 'pending') {
+        const cancelBtn = document.createElement('button');
+        cancelBtn.textContent = "Cancel Order";
+        cancelBtn.className = 'cancelOrderBtn';
+        cancelBtn.onclick = function () {
+          if (confirm(`Do you want to cancel Order #${order.order_id}?`)) {
+            fetch('order_data.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                action: 'cancelOrder',
+                orderId: order.order_id
+              })
+            })
+            .then(res => res.json())
+            .then(result =>  {
+                alert(result.message)
+                window.location.href();
+          })
+            .catch(err => {
+              console.error("Cancel failed:", err);
+              alert("Error canceling order.");
             });
-            const data = await response.json();
+          }
+        };
+        buttonContainer.appendChild(cancelBtn);
+      }
 
-            if (data.status === "success") {
-                showMessage(data.message, false);
-                fetchOrders(); // Refresh the list to show the updated status
-            } else {
-                showMessage(`Cancellation failed: ${data.message}`, false);
-            }
-        } catch (error) {
-            console.error("Error canceling order:", error);
-            showMessage("An error occurred during cancellation. Please try again.", false);
-        }
-    };
+      orderDiv.appendChild(buttonContainer);
+      container.appendChild(orderDiv);
+    });
+  }
+};
 
-    // Initial fetch of orders when the page loads
-    fetchOrders();
-});

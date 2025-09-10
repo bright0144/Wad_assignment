@@ -1,14 +1,107 @@
-footer {
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 70px; 
-  background: #5c4033;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
-  
+footer {
+  background-color: #222;
+  color: white;
+  padding: 12px 24px;
+  box-sizing: border-box;
 }
 
+.footerContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+.infoContainer {
+  display: flex;
+  justify-content: space-around; 
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #444;
+}
+
+.phoneContainer, .emailContainer, .locationContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.phoneContainer button,
+.emailContainer button,
+.locationContainer button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+
+}
+
+.phoneContainer button:hover,
+.emailContainer button:hover,
+.locationContainer button:hover {
+  color: orange; 
+}
+
+.phoneContainer span,
+.emailContainer a,
+.locationContainer a {
+  color: white;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.emailContainer a:hover,
+.locationContainer a:hover {
+  text-decoration: underline;
+}
+
+.footerBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+}
+
+/* Logo styling */
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: orange;
+  user-select: none;
+}
+
+/* Navigation styles */
+nav ul.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+nav ul.nav-links li a:hover {
+  color: #ff6600;
+}
+
+/* Responsive: stack on smaller screens */
+@media (max-width: 600px) {
+  .infoContainer {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .footerBottom {
+    flex-direction: column;
+    gap: 15px;
+  }
+  nav ul.nav-links {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+}

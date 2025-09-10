@@ -51,7 +51,7 @@ $sql = "
     LEFT JOIN 
         product_category pc ON p.category_id = pc.category_id
     WHERE 
-        p.product_name LIKE ? OR pc.category_name LIKE ?
+        p.stock_qty > 0 AND (p.product_name LIKE ? OR pc.category_name LIKE ?)
     LIMIT ? OFFSET ?
 ";
 

@@ -30,8 +30,10 @@ if (isset($_SESSION['id'])) {
         <nav>
             <!-- navigation bar -->
             <ul class="nav-links" id="nav-links">
-                <!-- Navigate to Home Page -->
+                <!-- Navigate to Home Page and contact page -->
                 <li><a href="/Wad_assignment/index.php">Home</a></li>
+                <li><a href="/Wad_assignment/contact/index.php">Contact</a></li>
+
 
                 <!-- User is logged in, display navigation to product page, cart page and logout -->
                 <?php if ($loginStatus === 'success'): ?>

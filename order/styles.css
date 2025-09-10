@@ -1,0 +1,135 @@
+/* General reset */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+
+
+/* Wrapper container with max-width */
+.orderContainer {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Page title */
+.orderTitle {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 150px;
+  color: #333;
+}
+
+/* Individual order card */
+.orderCard {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  background-color: #fafafa;
+}
+
+/* Order info paragraph */
+.orderInfo {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+/* Shipping address */
+.orderAddress {
+  margin-bottom: 10px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Order items list */
+.orderItems {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.orderItem {
+  background-color: #eee;
+  margin-bottom: 5px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+/* No orders message */
+.noOrders {
+  text-align: center;
+  color: #999;
+  font-size: 1.2rem;
+  padding: 40px;
+}
+
+.orderButtonContainer {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px; 
+}
+
+.removeOrderBtn,
+.cancelOrderBtn,
+.reviewOrderBtn {
+  padding: 8px 14px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.removeOrderBtn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.removeOrderBtn:hover {
+  background-color: #c82333;
+}
+
+.cancelOrderBtn {
+  background-color: #ffc107;
+  color: black;
+}
+
+.cancelOrderBtn:hover {
+  background-color: #e0a800;
+}
+
+.reviewOrderBtn {
+  background-color: #007bff;
+  color: white;
+}
+
+.reviewOrderBtn:hover {
+  background-color: #0056b3;
+}
+
+
+
+
+@media (max-width: 600px) {
+  .orderInfo,
+  .orderAddress,
+  .orderItem {
+    font-size: 0.9rem;
+  }
+
+  .orderTitle {
+    font-size: 1.5rem;
+  }
+
+  .orderCard {
+    padding: 15px;
+  }
+}

@@ -179,9 +179,9 @@ function toogleLike() {
           isLiked: isLiked,
         }),
       })
-        .then((res) => res.json())
-        .then((result) => {
-          if (result.status === "success") {
+        .then((responseJson) => responseJson.json())
+        .then((response) => {
+          if (response.status == "success") {
             //fetch review again to update like status
             getReview(productId);
           }

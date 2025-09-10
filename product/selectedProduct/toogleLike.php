@@ -23,10 +23,8 @@ $isLiked = filter_var($input['isLiked'], FILTER_VALIDATE_BOOLEAN);
 
 
 if ($isLiked) {
-    // Unlike
     $sql = "DELETE FROM review_like WHERE product_review_id = ? AND cust_id = ?";
 } else {
-    // Like
     $sql = "INSERT INTO review_like (product_review_id, cust_id) VALUES (?, ?)";
 }
 
