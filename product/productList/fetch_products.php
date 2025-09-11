@@ -55,11 +55,16 @@ $totalSql = "
         product p
     LEFT JOIN 
         product_category pc ON p.category_id = pc.category_id
-    WHERE 1=1
+    WHERE
 ";
 
 $params = [];
 $types = "";
+
+// Append stock_qty must be > 0
+$totalSql .= "p.stock_qty > ?";
+$params[] = (int)"0";
+$types .= "i";
 
 // Append product name query
 if (!empty($searchQuery)) {
@@ -116,11 +121,15 @@ $sql = "
         product p
     LEFT JOIN 
         product_category pc ON p.category_id = pc.category_id
-    WHERE 1=1
+    WHERE
 ";
 
 $params = [];
 $types = "";
+
+$sql .= " p.stock_qty > ?";
+$params[] = 0;
+$types .= "i";
 
 // Append product name query
 if (!empty($searchQuery)) {
