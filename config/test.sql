@@ -65,9 +65,6 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `username` varchar(45) NOT NULL,
   `email` varchar(100) NOT NULL,
   `phone_number` varchar(11) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `postcode` varchar(5) NOT NULL,
-  `state` varchar(45) NOT NULL,
   PRIMARY KEY (`cust_id`),
   UNIQUE KEY `id_UNIQUE` (`cust_id`),
   UNIQUE KEY `username_UNIQUE` (`username`),
@@ -79,8 +76,8 @@ CREATE TABLE IF NOT EXISTS `customer` (
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`cust_id`, `password`, `username`, `email`, `phone_number`, `address`, `postcode`, `state`) VALUES
-(1, '$2y$10$mzi5ChNinqIxCrSKSJPDWeIKfQeMOZWC68fsaV9ZJJ6RQeiAXCnF2', 'test', 'hoekit77@gmail.com', '0165502914', 'asodjpasopdjp', '56471', 'Johor');
+INSERT INTO `customer` (`cust_id`, `password`, `username`, `email`, `phone_number`) VALUES
+(1, '$2y$10$mzi5ChNinqIxCrSKSJPDWeIKfQeMOZWC68fsaV9ZJJ6RQeiAXCnF2', 'test', 'hoekit77@gmail.com', '0165502914');
 
 -- --------------------------------------------------------
 
