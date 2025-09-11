@@ -128,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     try {
       $insertCustomerQuery = "INSERT INTO customer (email, username, password, phone_number) VALUES (?, ?, ?, ?)";
-      $insertAddressQuery = "INSERT INTO customer_address (address, postcode, state, cust_id) VALUES (?,?,?,?);";
+      $insertAddressQuery = "INSERT INTO customer_addresses (address, postcode, state, cust_id) VALUES (?,?,?,?);";
 
       $insertCustomerStmt = mysqli_prepare($conn, $insertCustomerQuery);
       $insertAddressStmt = mysqli_prepare($conn, $insertAddressQuery);
