@@ -82,7 +82,7 @@ $states = [
         <div class="form-group">
           <label class="block font-semibold mb-1">Email:</label>
           <input type="email" name="email" value="<?= htmlspecialchars($email) ?>"
-            class="w-full rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-[#FFA500] focus:outline-none border-2 border-gray-500 text-white bg-black"
+            class="w-full rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-[#FFA500] focus:outline-none border-2 border-gray-500 text-white bg-black focus:border-transparent"
             required>
           <span class="err text-sm text-red-300"></span>
         </div>
@@ -91,7 +91,7 @@ $states = [
         <div class="form-group">
           <label class="block font-semibold mb-1">Password:</label>
           <input type="password" name="password" placeholder="New password"
-            class="w-full rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-[#FFA500] focus:outline-none border-2 border-gray-500 text-white bg-black"
+            class="w-full rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-[#FFA500] focus:outline-none border-2 border-gray-500 text-white bg-black focus:border-transparent"
             required>
           <span class="err text-sm text-red-300"></span>
         </div>
@@ -101,7 +101,7 @@ $states = [
           <label class="block font-semibold mb-1">Phone Number:</label>
           <input type="text" id="phone_number" name="phone_number" pattern="[\d\-]*" maxlength="13"
             value="<?= htmlspecialchars($phoneNumber) ?>"
-            class="w-full rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-[#FFA500] focus:outline-none border-2 border-gray-500 text-white bg-black"
+            class="w-full rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-[#FFA500] focus:outline-none border-2 border-gray-500 text-white bg-black focus:border-transparent"
             <span class="err text-sm text-red-300"></span>
         </div>
 
@@ -109,7 +109,7 @@ $states = [
         <div class="form-group">
           <label class="block font-semibold mb-1">State:</label>
           <select name="state"
-            class="w-full rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-[#FFA500] focus:outline-none border-2 border-gray-500 text-white bg-black"
+            class="w-full rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-[#FFA500] focus:outline-none border-2 border-gray-500 text-white bg-black focus:border-transparent"
             required>
             <?php foreach ($states as $state): ?>
               <option value="<?= $state; ?>"><?= $state ?></option>
@@ -146,7 +146,7 @@ $states = [
             </div>
           <?php endforeach; ?>
         </div>
-        
+
         <!-- Add new address btn -->
         <button type="button" onclick="openModal()"
           class="mt-4 px-4 py-2 bg-[#FFA550] hover:bg-[#cc8400] rounded-lg text-white font-semibold transition self-center w-[50%]">
@@ -168,7 +168,7 @@ $states = [
             <div>
               <label class="block text-sm font-medium mb-1">Address</label>
               <input type="text" id="new-address" name="new-address" placeholder="Address"
-                class="w-full border-2 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#FFA500] focus:outline-none bg-black"
+                class="w-full border-2 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#FFA500] focus:outline-none bg-black focus:border-transparent border-gray-500"
                 required>
               <span class="err text-sm text-red-500"></span>
             </div>
@@ -176,7 +176,7 @@ $states = [
             <div>
               <label class="block text-sm font-medium mb-1">Postcode</label>
               <input type="text" id="new-postcode" name="new-postcode" placeholder="Postcode"
-                class="w-full border-2 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#FFA500] focus:outline-none bg-black"
+                class="w-full border-2 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#FFA500] focus:outline-none bg-black focus:border-transparent border-gray-500"
                 required>
               <span class="err text-sm text-red-500"></span>
             </div>
@@ -184,7 +184,7 @@ $states = [
             <div>
               <label class="block text-sm font-medium mb-1">State</label>
               <select id="new-state" name="new-state"
-                class="w-full border-2 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#FFA500] focus:outline-none bg-black"
+                class="w-full border-2 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#FFA500] focus:outline-none bg-black focus:border-transparent border-gray-500"
                 required>
                 <?php foreach ($states as $state): ?>
                   <option value="<?= $state; ?>"><?= $state ?></option>

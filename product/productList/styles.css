@@ -30,7 +30,8 @@ main {
 .search-container input:focus,
 select:focus {
   outline: none;
-  border: 2px solid #ffa500;
+  box-shadow: 0 0 0 2px #ffa500;
+  border: transparent;
 }
 
 .input-wrapper {
@@ -42,7 +43,6 @@ select {
   width: 100%;
   padding: 10px;
   border-radius: 10px;
-  border: 3px solid white;
   font-size: 20px;
   box-sizing: border-box;
   background-color: black;
@@ -101,6 +101,7 @@ select {
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
+  max-width: 300px;
 }
 
 .card:hover {
@@ -109,7 +110,7 @@ select {
 
 .card-img-container {
   width: 100%;
-  max-width: 300px;
+  aspect-ratio: 3/4;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   border-top-left-radius: 8px;
@@ -169,7 +170,7 @@ select {
   font-size: 20px;
   cursor: pointer;
   margin: 20px 0;
-  width: 100px;
+  width: 130px;
   text-align: center;
   border: 2px solid #ffa5;
 }

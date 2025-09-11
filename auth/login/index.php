@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $loginErr = "Password is incorrect";
       } else {
         $_SESSION["id"] = $customer_id;
-        header("Location: ../../index.php"); 
+        header("Location: ../../index.php");
       }
     }
 
@@ -101,32 +101,32 @@ function validatepassword(string $password)
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <link rel="stylesheet" href="../../index.css">
+  <link rel="stylesheet" href="./login.css">
   <title>Login</title>
 </head>
 
 <body>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <div class="max-w-[500px] w-full mx-auto mt-20 p-8 sm:p-10 bg-gray-950 border border-slate-800 rounded-3xl shadow-2xl shadow-gray-950/50 text-white font-['Plus_Jakarta_Sans'] transition-all duration-300 hover:scale-[1.005] hover:shadow-cyan-500/10">
+  <div class="max-w-[500px] w-full mx-auto mt-20 p-8 bg-[#222] border-2 border-yellow-200 rounded-3xl shadow-2xl shadow-gray-900/40 text-white">
+    <!-- Sign in form -->
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="flex flex-col gap-6">
+
+      <!-- Logo and title -->
       <div class="flex flex-col items-center justify-center text-center">
-        <svg class="w-12 h-12 text-cyan-400 mb-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 14c-2.67 0-5.34-.84-7.46-2.26C5.54 16.5 8.68 15 12 15s6.46 1.5 7.46 2.74C17.34 19.16 14.67 20 12 20z" />
-        </svg>
-        <h2 class="text-4xl font-extrabold text-cyan-400 leading-tight">Welcome Back</h2>
+        <div class="w-35 h-35">
+          <img class="w-full h-full object-cover" src="/Wad_assignment/image/yu-gi-oh-sign-in.png" alt="yu gi oh sign in logo">
+        </div>
+        <h2 class="text-4xl font-extrabold text-white">Welcome Back</h2>
         <p class="text-sm text-gray-400 mt-1">Please log in to your account</p>
       </div>
 
       <label class="flex flex-col gap-1">
-        <span class="text-sm text-gray-400 font-semibold">Email</span>
+        <span class="text-sm font-semibold">Email</span>
         <input type="text" id="email" name="email" required
           value="<?php echo htmlspecialchars($email) ?>"
-          class="bg-gray-900 text-white border border-slate-700 rounded-lg px-4 py-3 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200"
-          placeholder="hello@your-email.com" />
+          class="bg-[#333] text-white border-2 border-yellow-300 rounded-lg px-4 py-3 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-300  transition-all duration-200"
+          placeholder="sample@utar.my" />
         <span class="text-red-400 text-sm h-5 err-msg font-bold"><?php echo htmlspecialchars($emailErr) ?></span>
       </label>
 
@@ -134,24 +134,27 @@ function validatepassword(string $password)
         <span class="text-sm text-gray-400 font-semibold">Password</span>
         <input type="password" id="password" name="password" required
           value="<?php echo htmlspecialchars($password) ?>"
-          class="bg-gray-900 text-white border border-slate-700 rounded-lg px-4 py-3 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200"
+          class="bg-[#333] text-white border-2 border-yellow-300 rounded-lg px-4 py-3 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-300  transition-all duration-200"
           placeholder="••••••••" />
         <span class="text-red-400 text-sm h-5 err-msg font-bold"><?php echo htmlspecialchars($passwordErr) ?></span>
       </label>
 
       <button type="submit"
-        class="bg-cyan-500 hover:bg-cyan-400 text-white font-bold py-3 rounded-lg transition-all duration-200 uppercase tracking-wide transform hover:-translate-y-1">
+        class="bg-[#FFA500] hover:opacity-70 text-white font-bold py-3 rounded-lg transition-opacity duration-200 uppercase">
         Sign In
       </button>
     </form>
 
+    <!-- Error container -->
     <div class="text-red-400 text-sm h-5 err-msg font-bold text-center mt-4 font-bold">
       <?php echo htmlspecialchars($loginErr) ?>
     </div>
 
-    <div class="text-center mt-4 text-sm text-gray-400">
-      Don't have an account?
-      <a href="../register/" class="text-cyan-400 font-semibold hover:underline hover:text-cyan-300 transition-colors duration-200">Sign Up here!</a>
+    <!-- Link to sign up page -->
+    <div class="text-center mt-6 text-md">
+      Do not have an account yet?
+      <a href="../register/index.php" class="ml-2 inline-block transition-transform duration-200
+          hover:scale-110 hover:underline text-[#FFA500]">Sign Up here!</a>
     </div>
   </div>
 

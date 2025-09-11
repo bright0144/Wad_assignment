@@ -25,37 +25,37 @@ window.onload = function () {
     productImg
   ) {
     cardDetailsContainer.innerHTML = `
-          <div class="flex flex-col md:flex-row gap-6 p-6 bg-white rounded-xl shadow-lg">
+          <div class="flex flex-col md:flex-row w-full md:w-[70%] mx-auto gap-6 p-6 bg-[#222] rounded-xl shadow-lg max-w-full">
               <!-- Card image -->
-          <div class="product-image-container md:w-1/2 flex justify-center">
+          <div class="product-image-container md:aspect-3/4 flex justify-center">
             <img src="https://placehold.co/400x400/1f2937/FFFFFF?text=hello" alt="${productImg}" class="rounded-lg shadow-md object-cover" />
           </div>
             <!-- Card details -->
-            <div class="md:w-1/2 flex flex-col gap-4 justify-center">
-              <h2 class="text-2xl font-bold text-gray-800">${productName}</h2>
-              <p class="text-gray-600">${productDescription}</p>
-              <p class="text-2xl font-semibold">RM ${productPrice}</p>
-              <p class="productQuantity text-gray-500">Stock: ${productQuantity}</p>
+            <div class="flex flex-col gap-4 justify-center flex-1">
+              <h2 class="text-2xl font-bold text-white">${productName}</h2>
+              <p class="text-gray-400">${productDescription}</p>
+              <p class="text-2xl font-semibold text-white">RM ${productPrice}</p>
+              <p class="productQuantity text-gray-400">Stock: ${productQuantity}</p>
 
               <!-- Select quantity -->
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-3 text-white">
                 <span class="font-medium">Quantity:</span>
-                <button id="decreaseQuantity" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-lg">–</button>
+                <button id="decreaseQuantity" class="px-3 py-1 bg-[#FFA550] hover:opacity-70 rounded-full">–</button>
                 <input 
                   type="number" 
                   id="quantityInput" 
                   value="1" 
                   min="1" 
                   max="${productQuantity}" 
-                  class="w-16 text-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  class="w-14 text-center border-3 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#FFA550] focus:outline-none focus:border-transparent h-[30px]"
                 />
-                <button id="increaseQuantity" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-lg">+</button>
+                <button id="increaseQuantity" class="px-3 py-1 bg-[#FFA550]  hover:opacity-70 rounded-full">+</button>
               </div>
 
               <!-- Add to Cart button -->
               <button 
                 id="addToCartButton" 
-                class="mt-6 w-full md:w-auto px-6 py-3 bg-red-500 text-white font-semibold rounded-lg shadow hover:opacity-70 transition">
+                class="mt-6 w-full self-center px-6 py-3 bg-[#FFA550] text-white font-semibold rounded-lg shadow hover:opacity-70 transition">
                 Add to Cart
               </button>
             </div>
@@ -139,7 +139,7 @@ function getReview(productId) {
 
       //No review fetched form database
       if (reviews.status === "error" || reviews.length === 0) {
-        productReviewsContainer.innerHTML = `<p>No reviews yet. You can make the purchase and leave a Comment ! </p>`;
+        productReviewsContainer.innerHTML = `<p class="text-white">No reviews yet. You can make the purchase and leave a Comment ! </p>`;
         return;
       }
 
@@ -151,26 +151,37 @@ function getReview(productId) {
         const likeCount = review.like_count;
 
         const reviewDiv = document.createElement("div");
-        reviewDiv.className = "review-item p-4 bg-white rounded-lg shadow mb-4";
+        reviewDiv.className =
+          "review-item p-4 bg-[#222] rounded-lg shadow mb-4";
 
         reviewDiv.innerHTML = `
-              <p class="font-semibold text-gray-800 mb-1">
-                ${review.username} 
-                <span class="text-sm text-gray-500">on ${new Date(
+              <div class="font-semibold text-white mb-1 flex gap-3 items-center">
+                <span>${review.username}</span>
+                <div class="w-2 h-2">
+                  <img src="/Wad_assignment/image/circle.png" alt="circle logo"/> 
+                </div>
+                <span>${new Date(
                   review.product_review_date
                 ).toLocaleDateString()}</span>
-              </p>
+              </div>
 
-              <p class="text-gray-700 mb-3">${review.comment}</p>
+              <p class="text-white mb-3">${review.comment}</p>
 
               <button
-                class="likeButton inline-flex items-center gap-1 px-3 py-1 rounded-full border border-gray-300 text-gray-600 hover:bg-red-50 hover:text-red-500 transition"
+                class="likeButton items-center gap-1 px-3 py-1 rounded-full hover:bg-red-200 transition border-3 border-red-500"
                 data-review-id="${review.product_review_id}"
                 data-liked="${review.liked_by_user}"
               >
-                ${likeIcon} <span class="font-medium">${likeCount}</span>
+              <div class="font-medium text-red-500 flex justify-center items-center gap-2">
+              <!-- Love img wrapper -->
+                <div class="w-5 h-5">
+                  <img class="w-full h-full object-cover" src="/Wad_assignment/image/${
+                    review.liked_by_user ? "unlike.png" : "like.png"
+                  }" alt="heart icon"/>
+                </div>
+                <span>${likeCount}</span>
+                <span>${review.liked_by_user ? "Unlike" : "Like"}</span>
               </button>
-
               <hr class="mt-4 border-gray-200">
             `;
         productReviewsContainer.appendChild(reviewDiv);

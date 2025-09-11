@@ -1,0 +1,13 @@
+body {
+  font-family: "Poppins", "sans-serif";
+  background-color: gray;
+}
+
+label span:first-child {
+  font-size: large;
+  color: white;
+}
+
+button {
+  cursor: pointer;
+}

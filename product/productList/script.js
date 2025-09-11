@@ -238,6 +238,8 @@ async function fetchCardFromDB(
     console.error("Error : ", error);
     productsContainer.innerHTML =
       '<p  class="no-products-found">Error connecting to the database</p>';
+  } finally {
+    window.scrollTo(0, 0);
   }
 }
 

@@ -3,7 +3,7 @@
 include_once("../../config/config.php");
 
 // Item limited to 10 item per query
-$limit = 10;
+$limit = 9;
 
 // Get all the query params
 

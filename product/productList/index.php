@@ -26,6 +26,7 @@ if (!isset($_SESSION['id'])) {
   <?php include("../../header/index.php"); ?>
 
   <main>
+    <!-- Container that handles all the search and filter -->
     <div class="search-container">
       <div class="input-wrapper">
         <input type="text" id="searchInput" class="searchInput" placeholder="Search for cards...">
@@ -38,8 +39,8 @@ if (!isset($_SESSION['id'])) {
           </select>
         </div>
         <div class="price-filter-container">
-          <input type="number" class="price-filter" id="minPriceInput" placeholder="MIN PRICE">
-          <input type="number" class="price-filter" id="maxPriceInput" placeholder="MAX PRICE">
+          <input type="number" class="price-filter" id="minPriceInput" placeholder="MIN PRICE" min="1">
+          <input type="number" class="price-filter" id="maxPriceInput" placeholder="MAX PRICE" min="1">
         </div>
       </div>
       <div class="sort-container">

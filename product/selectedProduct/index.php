@@ -24,18 +24,17 @@ if (!isset($_SESSION['id'])) {
 </head>
 
 <body class="product">
-
   <?php include("../../header/index.php"); ?>
-  <main class="pt-[350px] md:pt-[150px]">
+  <main class="mt-[100px] w-[90%]">
     <!-- Card details -->
     <div id="cardDetailsContainer" class="flex"></div>
     <div id="statusMessage" class="mt-4 text-center text-sm text-gray-500"></div>
 
     <!-- Card reviews -->
-    <h1 class="reviewTitle text-2xl font-semibold text-gray-800 mt-12 mb-6 border-b pb-2">
+    <h1 class="reviewTitle text-2xl font-semibold text-white mt-12 mb-6 border-b pb-2">
       Product Reviews
     </h1>
-    <div id="productReviewsContainer" class="space-y-4 mb-[100px] md:mb-0">
+    <div id="productReviewsContainer" class="space-y-4 mb-[100px]">
     </div>
 
     <!-- Error message (hidden by default) -->

@@ -269,81 +269,88 @@ function validatePhoneNumber(string $phoneNumber)
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <link rel="stylesheet" href="./register-style.css">
-  <link rel="stylesheet" href="../../index.css">
+  <link rel="stylesheet" href="./register.css">
   <title>Sign Up</title>
 </head>
 
 <body>
-  <main class="max-w-[500px] w-full mx-auto mt-20 bg-gradient-to-br from-gray-800 via-slate-700 to-gray-900 border border-gray-600 rounded-xl shadow-2xl text-white font-medium p-6">
+  <main class="max-w-[500px] w-full mx-auto my-20 bg-[#222] border rounded-4xl shadow-2xl text-white font-medium p-6 border-2 border-yellow-300 shadow-2xl shadow-gray-900/40">
+    <!-- Sign Up form -->
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="flex flex-col" id="loginFormContainer">
-      <h2 class="text-3xl font-bold text-center text-cyan-400">Sign Up Now</h2>
+      <!-- Sign Up title and logo -->
+      <div class="flex flex-col justify-center items-center">
+        <div class="w-30 h-30">
+          <img class="w-full h-full object-cover" src="/Wad_assignment/image/pikachu-sign-up.png" alt="pikachu sign up logi">
+        </div>
+        <h2 class="text-3xl font-bold text-center">Sign Up Now</h2>
+      </div>
 
       <!-- Email Field -->
       <label class="flex flex-col gap-1">
-        <span class="text-sm text-gray-300">Email</span>
+        <span class="text-sm ">Email</span>
         <input type="text" id="email" name="email" required placeholder="Your email"
           value="<?php echo htmlspecialchars($email) ?>"
-          class="bg-gray-900 text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200" />
+          class="bg-[#333] text-white rounded-md px-4 py-2 border-2 border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent transition-all duration-200" />
         <!-- Email error message -->
         <span class="text-red-400 text-sm h-5 err-msg font-bold"><?php echo htmlspecialchars($emailErr) ?></span>
       </label>
 
       <!-- Username Field -->
       <label class="flex flex-col gap-1">
-        <span class="text-sm text-gray-300">Username</span>
+        <span class="text-sm ">Username</span>
         <input type="text" id="username" name="username" required placeholder="Your username"
           value="<?php echo htmlspecialchars($username) ?>"
-          class="bg-gray-900 text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200" />
+          class="bg-[#333] text-white rounded-md px-4 py-2 border-2 border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent transition-all duration-200" />
         <!-- Username error message -->
         <span class="text-red-400 text-sm h-5 err-msg font-bold font-bold"><?php echo htmlspecialchars($usernameErr) ?></span>
       </label>
 
       <!-- Password Field -->
       <label class="flex flex-col gap-1">
-        <span class="text-sm text-gray-300">Password</span>
+        <span class="text-sm ">Password</span>
         <input type="password" id="password" name="password" required placeholder="Your password"
           value="<?php echo htmlspecialchars($password) ?>"
-          class="bg-gray-900 text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200" />
+          class="bg-[#333] text-white rounded-md px-4 py-2 border-2 border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent transition-all duration-200" />
         <!-- Password error message -->
         <span class="text-red-400 text-sm h-5 err-msg font-bold"><?php echo htmlspecialchars($passwordErr) ?></span>
       </label>
 
       <!-- Phone Number Field -->
       <label class="flex flex-col gap-1">
-        <span class="text-sm text-gray-300">Phone Number</span>
+        <span class="text-sm ">Phone Number</span>
         <input type="text" id="phonenumber" name="phonenumber" pattern="[\d\-]*" maxlength="13" placeholder="012-3456-7890"
           value="<?php echo htmlspecialchars($phoneNumber) ?>"
-          class="bg-gray-900 text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200" />
+          class="bg-[#333] text-white rounded-md px-4 py-2 border-2 border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent transition-all duration-200" />
         <!-- Phone Number error message -->
         <span class="text-red-400 text-sm h-5 err-msg font-bold"><?php echo htmlspecialchars($phoneNumberErr) ?></span>
       </label>
 
       <!-- Address Field -->
       <label class="flex flex-col gap-1">
-        <span class="text-sm text-gray-300">Address</span>
+        <span class="text-sm ">Address</span>
         <input type="text" id="address" name="address" required placeholder="Your street address"
           value="<?php echo htmlspecialchars($address) ?>"
-          class="bg-gray-900 text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200" />
+          class="bg-[#333] text-white rounded-md px-4 py-2 border-2 border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent transition-all duration-200" />
         <!-- Address error message -->
         <span class="text-red-400 text-sm h-5 err-msg font-bold"><?php echo htmlspecialchars($addressErr) ?></span>
       </label>
 
       <!-- Postcode Field -->
       <label class="flex flex-col gap-1">
-        <span class="text-sm text-gray-300">Postcode</span>
+        <span class="text-sm ">Postcode</span>
         <input type="text" id="postcode" name="postcode" maxlength="5" pattern="\d*" placeholder="Your postcode"
           value="<?php echo htmlspecialchars($postcode) ?>"
-          class="bg-gray-900 text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200" />
+          class="bg-[#333] text-white rounded-md px-4 py-2 border-2 border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent transition-all duration-200" />
         <!-- Postcode error message -->
         <span class="text-red-400 text-sm h-5 err-msg font-bold"><?php echo htmlspecialchars($postcodeErr) ?></span>
       </label>
 
       <!-- State Field -->
       <label class="flex flex-col gap-1">
-        <span class="text-sm text-gray-300">State</span>
-        <select name="state" class="bg-gray-900 text-white border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200" required aria-placeholder="Select your state">
+        <span class="text-sm ">State</span>
+        <select name="state" class="bg-[#333] text-white rounded-md px-4 py-2 border-2 border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent transition-all duration-200" required aria-placeholder="Select your state">
           <?php
           foreach ($states as $state) {
             echo "<option value='" . htmlspecialchars($state) . "'>$state</option>";
@@ -357,14 +364,16 @@ function validatePhoneNumber(string $phoneNumber)
 
       <!-- Submit Button -->
       <button type="submit"
-        class="bg-cyan-500 hover:opacity-70 text-white font-semibold py-2 rounded-md transition-opacity uppercase tracking-wide">
+        class="bg-[#FFA500] hover:opacity-70 font-semibold py-2 rounded-md transition-opacity uppercase">
         Sign Up
       </button>
     </form>
 
-    <div class="text-center mt-6 text-sm text-gray-300">
+    <!-- Link to sign in page -->
+    <div class="text-center mt-6 text-md">
       Already have an account?
-      <a href="../login/" class="text-cyan-400 hover:underline hover:text-cyan-300">Sign In here!</a>
+      <a href="../login/index.php" class="ml-2 inline-block transition-transform duration-200
+          hover:scale-110 hover:underline text-[#FFA500]">Sign In here!</a>
     </div>
   </main>
 
