@@ -121,7 +121,7 @@ function fetchCartFromDB() {
       }
       // Create table and header row
       const table = document.createElement("table");
-      table.classList.add("cartTable"); 
+      table.classList.add("cartTable");
 
       table.innerHTML = `
           <thead>
@@ -145,7 +145,7 @@ function fetchCartFromDB() {
 
         row.innerHTML = `
           <td>
-            <input type="checkbox" class="itemSelectCheckbox" 
+            <input type="checkbox" class="itemSelectCheckbox" name="itemSelectCheckbox" 
               data-cart-id="${cartItem.cart_item_id}" 
               data-product-id="${cartItem.product_id}"
               data-price="${cartItem.cart_item_price}" 
@@ -154,9 +154,11 @@ function fetchCartFromDB() {
           <td>${cartItem.product_name}</td>
           <td> RM ${cartItem.cart_item_price}</td>
           <td>
-            <button class="decreaseButton" data-id="${cartItem.cart_item_id}">–</button>
-            <input type="number" id="${cartItem.cart_item_id}" value="${cartItem.cart_item_qty}" min="1" disabled style="width: 50px; text-align: center;" />
-            <button class="increaseButton" data-id="${cartItem.cart_item_id}">+</button>
+            <div class="quantityContainer">
+              <button class="decreaseButton" data-id="${cartItem.cart_item_id}">–</button>
+              <input type="number" id="${cartItem.cart_item_id}" value="${cartItem.cart_item_qty}" min="1" disabled style="width: 50px; text-align: center;" />
+              <button class="increaseButton" data-id="${cartItem.cart_item_id}">+</button>
+            </div>
           </td>
           <td>
             <button class="deleteButton" data-id="${cartItem.cart_item_id}">Remove</button>

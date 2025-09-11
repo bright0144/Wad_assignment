@@ -7,22 +7,21 @@ if (!isset($_SESSION['id'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Order List</title>
-      <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <title>Order List</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
 </head>
-<body>
-             <?php include("../header/index.php"); ?>
-          
-   <h1 class ="orderTitle">Orders</h1>
-   <div id = "orderContainer" class="orderContainer"></div>
-             <?php include("../footer/index.php"); ?>
 
-
-    <script src="script.js"></script>
-
-
+<body class="order">
+    <?php include("../header/index.php"); ?>
+    <h1 class="orderTitle">Orders</h1>
+    <div id="orderContainer" class="orderContainer"></div>
+    <?php include("../footer/index.php"); ?>
 </body>
+<script src="script.js"></script>
+
 </html>

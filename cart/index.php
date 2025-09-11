@@ -20,19 +20,15 @@ if (!isset($_SESSION['id'])) {
 
 </head>
 
-<body>
+<body class="cart">
     <?php include("../header/index.php"); ?>
     <main>
-
         <h1 class="cartTitle"> Shopping Cart</h1>
-
         <div id="cartContainer">
             <p>Loading cart items...</p>
         </div>
-
-
         <hr>
-        <h3>Total: <span id="totalPrice"></span></h3>
+        <h3 class="totalPriceWrapper">Total: <span id="totalPrice"></span></h3>
         <div class="addressContainer">
             <label for="addressSelection">Select Delivery Address:</label>
             <select id="addressSelection">
@@ -41,15 +37,8 @@ if (!isset($_SESSION['id'])) {
         </div>
         <button id="checkoutButton">Checkout</button>
     </main>
-
     <?php include("../footer/index.php"); ?>
-
-
-
-
-
-
-    <script src="script.js"></script>
 </body>
+<script src="script.js"></script>
 
 </html>

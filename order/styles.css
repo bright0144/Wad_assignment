@@ -1,52 +1,50 @@
 /* General reset */
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
+  font-family: "Poppins", "sans-serif";
+  background-color: gray;
   display: flex;
   flex-direction: column;
 }
-
-
 
 /* Wrapper container with max-width */
 .orderContainer {
   max-width: 1000px;
   margin: 30px auto;
   padding: 20px;
-  background-color: #fff;
+  background-color: #222;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  margin-top: 30px;
 }
 
 /* Page title */
 .orderTitle {
   text-align: center;
   font-size: 2rem;
-  margin-top: 150px;
-  color: #333;
+  color: white;
+  margin-top: 30px;
 }
 
 /* Individual order card */
 .orderCard {
-  border: 1px solid #ddd;
   padding: 20px;
   margin-bottom: 20px;
   border-radius: 6px;
-  background-color: #fafafa;
+  background-color: #333;
 }
 
 /* Order info paragraph */
 .orderInfo {
   font-weight: bold;
   margin-bottom: 10px;
-  color: #444;
+  color: white;
 }
 
 /* Shipping address */
 .orderAddress {
   margin-bottom: 10px;
-  color: #666;
+  color: #dddddd;
   font-style: italic;
 }
 

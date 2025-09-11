@@ -13,8 +13,8 @@ main {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding-top: 150px;
-  gap: 20px;
+  padding-top: 50px;
+  gap: 25px;
 }
 
 .search-container {
@@ -24,6 +24,13 @@ main {
   align-items: center;
   gap: 5px;
   width: 60%;
+  color: white;
+}
+
+.search-container input:focus,
+select:focus {
+  outline: none;
+  border: 2px solid #ffa500;
 }
 
 .input-wrapper {
@@ -38,16 +45,19 @@ select {
   border: 3px solid white;
   font-size: 20px;
   box-sizing: border-box;
+  background-color: black;
 }
 
 .no-products-found {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
-  color: red;
-  font-size: 48px;
+  color: rgb(247, 107, 107);
+  font-size: 24px;
+}
+
+.products-container.not-found {
+  grid-template-columns: 1fr;
 }
 
 .products-container {
@@ -63,9 +73,11 @@ select {
   align-items: center;
   gap: 7px;
   height: 200px;
-  background-color: #333;
+  background-color: #222;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+  color: white;
+  padding: 10px;
 }
 
 /* Medium screen */
@@ -97,7 +109,7 @@ select {
 
 .card-img-container {
   width: 100%;
-  max-width: 275px;
+  max-width: 300px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   border-top-left-radius: 8px;
@@ -113,7 +125,6 @@ select {
 
 .card-name {
   font-size: 20px;
-  color: #333;
   text-align: center;
   font-weight: bold;
 }
@@ -130,16 +141,17 @@ select {
 
 .check-card-btn {
   padding: 10px;
-  background-color: #5c4033;
+  background-color: #ffa500;
   color: white;
   text-align: center;
   text-decoration: none;
   border-radius: 7px;
   font-weight: bold;
+  transition: background-color 250ms ease-in-out;
 }
 
 .check-card-btn:hover {
-  background-color: orange;
+  background-color: #f1ce8e;
 }
 
 .pagination-container {
@@ -147,22 +159,33 @@ select {
   justify-content: center;
   align-items: center;
   margin-top: 20px;
-  gap: 10px;
 }
 
 .pagination-container button {
-  background-color: #5c4033;
+  background-color: #ffa500;
   color: white;
   border: none;
-  padding: 30px 48px;
-  font-size: 28px;
-  border-radius: 5px;
+  padding: 10px 10px;
+  font-size: 20px;
   cursor: pointer;
-  margin: 20px;
+  margin: 20px 0;
+  width: 100px;
+  text-align: center;
+  border: 2px solid #ffa5;
+}
+
+.pagination-container button:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.pagination-container button:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 }
 
 .pagination-container button:hover {
-  background-color: orange;
+  background-color: #ffa700;
 }
 
 .filter-container,
@@ -180,6 +203,7 @@ select {
   align-self: flex-start;
   font-weight: bold;
   font-size: 20px;
+  color: white;
 }
 
 .price-filter {

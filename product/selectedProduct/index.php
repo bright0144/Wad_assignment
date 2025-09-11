@@ -23,7 +23,7 @@ if (!isset($_SESSION['id'])) {
 
 </head>
 
-<body>
+<body class="product">
 
   <?php include("../../header/index.php"); ?>
   <main class="pt-[350px] md:pt-[150px]">

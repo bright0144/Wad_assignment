@@ -186,8 +186,9 @@ async function fetchCardFromDB(
 
     //no cards found in database
     if (cards.length === 0) {
+      productsContainer.classList.toggle("not-found");
       productsContainer.innerHTML =
-        '<p  class="no-products-found">No products found for your search.</p>';
+        '<span class="no-products-found">No products found for your search.</span>';
       return;
     }
 
@@ -251,7 +252,15 @@ function pagination(totalRows) {
     prevButton.textContent = "Previous";
     prevButton.addEventListener("click", function () {
       currentPage--;
-      fetchCardFromDB(searchInput.value, currentPage);
+      debouncedFetchCard(
+        categorySelect.value,
+        minPriceInput.value,
+        maxPriceInput.value,
+        sortItemSelect.value,
+        sortTypeSelect.value,
+        searchInput.value,
+        currentPage
+      );
     });
     paginationContainer.appendChild(prevButton);
   }

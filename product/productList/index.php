@@ -21,7 +21,7 @@ if (!isset($_SESSION['id'])) {
 
 </head>
 
-<body>
+<body class="product">
 
   <?php include("../../header/index.php"); ?>
 
@@ -68,7 +68,7 @@ if (!isset($_SESSION['id'])) {
 
   <?php include("../../footer/index.php"); ?>
 
-  <script src="script.js"></script>
+  <script src="./script.js"></script>
 
 </body>
 
