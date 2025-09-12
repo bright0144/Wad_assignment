@@ -27,8 +27,8 @@ window.onload = function () {
     cardDetailsContainer.innerHTML = `
           <div class="flex flex-col md:flex-row w-full md:w-[70%] mx-auto gap-6 p-6 bg-[#222] rounded-xl shadow-lg max-w-full">
               <!-- Card image -->
-          <div class="product-image-container md:aspect-3/4 flex justify-center">
-            <img src="https://placehold.co/400x400/1f2937/FFFFFF?text=hello" alt="${productImg}" class="rounded-lg shadow-md object-cover" />
+          <div class="product-image-container md:aspect-3/4 flex justify-center max-w-[350px] w-full mx-auto">
+            <img src="/Wad_assignment/image/product-image/${productImg}" alt="${productName}" class="rounded-lg shadow-md object-cover" />
           </div>
             <!-- Card details -->
             <div class="flex flex-col gap-4 justify-center flex-1">
@@ -134,16 +134,16 @@ function getReview(productId) {
   //fetch review request
   fetch(`productApi.php?product_id=${productId}`, {
     method: "GET",
-     headers: {
+    headers: {
       "Content-Type": "application/json",
-    }
-    })
+    },
+  })
     .then((response) => response.json())
     .then((response) => {
       productReviewsContainer.innerHTML = "";
 
       //No review fetched form database
-      if ( response.reviews.length === 0) {
+      if (response.reviews.length === 0) {
         productReviewsContainer.innerHTML = `<p class="text-white">No reviews yet. You can make the purchase and leave a Comment ! </p>`;
         return;
       }

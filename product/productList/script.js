@@ -217,7 +217,7 @@ async function fetchCardFromDB(
 
       product.innerHTML = `
                         <div class="card-img-container">
-                          <img class="card-image" src="${imageUrl}" alt="${card.product_name}"  />
+                          <img class="card-image" src="/Wad_assignment/image/product-image/${card.product_img}" alt="${card.product_name}"  />
                         </div>
                         <div class="card-details">
                           <span class="card-name">${card.product_name}</span>
