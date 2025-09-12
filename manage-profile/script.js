@@ -8,6 +8,7 @@ function closeModal() {
 
 const handleUpdateProfile = (e) => {
   e.preventDefault();
+  console.log("Clicked");
   const profileForm = document.querySelector("#profileForm");
   const email = profileForm.querySelector("input[name=email]");
   const password = profileForm.querySelector("input[name=password]");
@@ -71,7 +72,7 @@ const handleUpdateProfile = (e) => {
   if (hasErr) return;
 
   fetch("update-profile.php", {
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-type": "application/json",
     },
@@ -89,7 +90,10 @@ const handleUpdateProfile = (e) => {
         alert(data.message);
       }
     })
-    .catch((err) => alert(data.message));
+    .catch((err) => {
+      alert("Error occured when updating profile");
+      console.log(err);
+    });
 };
 
 const saveNewAddress = (e) => {
@@ -154,7 +158,7 @@ const saveNewAddress = (e) => {
         const newAddressDiv = document.createElement("div");
         newAddressDiv.id = `address-${newAddressId}`;
         newAddressDiv.classList =
-          "bg-[#5c4033] p-4 rounded-lg shadow flex flex-col gap-1";
+          "bg-[#333] p-4 rounded-lg shadow flex flex-col gap-1";
         newAddressDiv.innerHTML = `
             <div><strong>Address:</strong>${addressValue}</div>
             <div><strong>Postcode:</strong>${postcodeValue}</div>
@@ -165,13 +169,16 @@ const saveNewAddress = (e) => {
             </button>
             `;
         additionalAddresses.appendChild(newAddressDiv);
-        alert("New address saved successful");
+        alert("Successfully saved the new address");
         closeModal();
       } else {
-        alert("Error saving new address");
+        alert(data.message);
       }
     })
-    .catch((err) => alert("Error saving new address"));
+    .catch((err) => {
+      alert("Error saving new address");
+      console.log(err);
+    });
 };
 
 const removeAddress = (addressId) => {
@@ -186,35 +193,14 @@ const removeAddress = (addressId) => {
     .then((data) => {
       if (data.success) {
         document.getElementById(`address-${addressId}`).remove();
+        alert("Address is removed");
         closeModal();
       } else {
-        alert("Error occurred when deleting address");
+        alert(data.message);
       }
     })
     .catch((err) => {
       console.error(err);
       alert("Error occurred when deleting address");
-    });
-};
-
-const updateProfile = () => {
-  document
-    .getElementById("profileForm")
-    .addEventListener("submit", function (e) {
-      e.preventDefault();
-      const formData = new FormData(this);
-
-      fetch("update_profile.php", {
-        method: "POST",
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          alert(data.success ? "Profile updated!" : "Update failed.");
-        })
-        .catch((err) => {
-          console.error("Error:", err);
-          alert("Something went wrong.");
-        });
     });
 };

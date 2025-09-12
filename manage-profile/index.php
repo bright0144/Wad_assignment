@@ -67,7 +67,7 @@ $states = [
   <title>Manage Profile</title>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="/Wad_assignment/manage-profile/manage-profile.css">
 
 </head>
 
@@ -101,8 +101,8 @@ $states = [
           <label class="block font-semibold mb-1">Phone Number:</label>
           <input type="text" id="phone_number" name="phone_number" pattern="[\d\-]*" maxlength="13"
             value="<?= htmlspecialchars($phoneNumber) ?>"
-            class="w-full rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-[#FFA500] focus:outline-none border-2 border-gray-500 text-white bg-black focus:border-transparent"
-            <span class="err text-sm text-red-300"></span>
+            class="w-full rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-[#FFA500] focus:outline-none border-2 border-gray-500 text-white bg-black focus:border-transparent">
+          <span class="err text-sm text-red-300"></span>
         </div>
 
         <!-- State -->

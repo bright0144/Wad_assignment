@@ -6,6 +6,11 @@ body {
   justify-content: center;
   align-items: center;
   font-family: "Poppins", sans-serif;
+  min-height: 100svh;
+}
+
+main {
+  margin: 0 10px;
 }
 
 .cartTitle {
@@ -155,7 +160,7 @@ label[for="addressSelection"] {
 
 #addressSelection:focus {
   outline: none;
-  border: 2px solid #555
+  box-shadow: 0 0 0 2px #FFA500;
 }
 
 input[name="itemSelectCheckbox"] {

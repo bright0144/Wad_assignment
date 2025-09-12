@@ -11,7 +11,7 @@ $response = ['success' => false, 'message' => ''];
 $input = json_decode(file_get_contents("php://input"), true);
 
 if (
-  $_SERVER['REQUEST_METHOD'] === "POST"
+  $_SERVER['REQUEST_METHOD'] === "PUT"
   && isset($input["email"])
   && isset($input["password"])
   && isset($input["phone_number"])
