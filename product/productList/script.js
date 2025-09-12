@@ -186,10 +186,12 @@ async function fetchCardFromDB(
 
     //no cards found in database
     if (cards.length === 0) {
-      productsContainer.classList.toggle("not-found");
+      productsContainer.classList.add("not-found");
       productsContainer.innerHTML =
         '<span class="no-products-found">No products found for your search.</span>';
       return;
+    } else {
+      productsContainer.classList.remove("not-found");
     }
 
     //Render cards

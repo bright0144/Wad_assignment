@@ -50,7 +50,7 @@
                     </a>
                 </div>
             </div>
-            <span class="w-full border-b-2 border-[#FFA500] h-3 mb-5"></span>
+            <span class="w-full border-b-4 border-[#FFA500] h-3 mb-5"></span>
             <!-- bottom footer part -->
             <div class="footerBottom">
                 <div class="logo">Tusla</div>

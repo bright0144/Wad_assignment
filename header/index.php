@@ -28,7 +28,7 @@ if (isset($_SESSION['id'])) {
             <a href="/Wad_assignment/index.php" class="logo">Tusla</a>
         </div>
 
-        <span class="w-full border-b-2 border-[#FFA500] h-3 mb-5"></span>
+        <span class="w-full border-b-4 border-[#FFA500] h-3 mb-5"></span>
 
         <!-- Mobile nav (visible on small screens, hidden on md and up) -->
         <div class="mobile-nav-container md:hidden flex flex-col">
