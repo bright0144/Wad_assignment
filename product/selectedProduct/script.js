@@ -96,7 +96,7 @@ window.onload = function () {
       };
 
       //add to cart request
-      fetch("addToCart.php", {
+      fetch("productApi.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -132,13 +132,18 @@ function getReview(productId) {
   );
 
   //fetch review request
-  fetch(`getComment.php?product_id=${productId}`)
+  fetch(`productApi.php?product_id=${productId}`, {
+    method: "GET",
+     headers: {
+      "Content-Type": "application/json",
+    }
+    })
     .then((response) => response.json())
-    .then((reviews) => {
+    .then((response) => {
       productReviewsContainer.innerHTML = "";
 
       //No review fetched form database
-      if (reviews.status === "error" || reviews.length === 0) {
+      if ( response.reviews.length === 0) {
         productReviewsContainer.innerHTML = `<p class="text-white">No reviews yet. You can make the purchase and leave a Comment ! </p>`;
         return;
       }
@@ -146,7 +151,7 @@ function getReview(productId) {
       //console.log("Reviews: ", reviews);
 
       //display review
-      reviews.forEach((review) => {
+      response.reviews.forEach((review) => {
         const likeIcon = "♥";
         const likeCount = review.like_count;
 
@@ -210,8 +215,8 @@ function toogleLike() {
       const isLiked = button.dataset.liked === "true";
 
       //toogle like request
-      fetch("toogleLike.php", {
-        method: "POST",
+      fetch("productApi.php", {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },

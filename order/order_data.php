@@ -78,7 +78,7 @@ $stmt->bind_param("i", $orderId);
 } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // Handle JSON input
     $rawInput = file_get_contents("php://input");
-    $data = json_decode($rawInput, true); // decode as associative array
+    $data = json_decode($rawInput, true);
 
     $action = $data['action'] ?? null;
 

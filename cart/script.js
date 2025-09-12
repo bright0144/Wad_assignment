@@ -94,8 +94,8 @@ checkoutButton.addEventListener("click", function () {
     .then((response) => {
       alert(response.message);
 
-      if (result.status === "success") {
-        fetchCartItems();
+      if (response.status === "success") {
+        fetchCartFromDB();
       }
     })
     .catch((error) => {
@@ -140,7 +140,7 @@ function fetchCartFromDB() {
       const tbody = table.querySelector("tbody");
 
       //display cart item
-      response.forEach((cartItem) => {
+      response.items.forEach((cartItem) => {
         const row = document.createElement("tr");
 
         row.innerHTML = `

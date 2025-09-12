@@ -1,220 +1,198 @@
 <?php
-// Start the session to access user information.
 session_start();
 
-// Database connection details.
-// IMPORTANT: Replace these with your actual database credentials.
-$servername = "localhost";
-$db_username = "root";
-$db_password = "";
-$dbname = "test";
+//Necessary database connection
+include_once("../config/config.php");
 
-// Set the content type to JSON for a consistent response.
-header('Content-Type: application/json');
-
-// Check if the user is authenticated.
+// Check user is logged in
 if (!isset($_SESSION["id"])) {
   echo json_encode(["status" => "error", "message" => "User not logged in."]);
   exit();
 }
 
-// Create a database connection.
-$conn = new mysqli($servername, $db_username, $db_password, $dbname, 3307);
+//Retrieve user id for session variable
+$cust_id = $_SESSION["id"];
 
-// Check the connection.
-if ($conn->connect_error) {
-  echo json_encode(["status" => "error", "message" => "Connection failed: " . $conn->connect_error]);
-  exit();
-}
-
-$id = $_SESSION["id"];
-$method = $_SERVER['REQUEST_METHOD'];
-
-// Handle different request methods
-switch ($method) {
-  case 'GET': // Read operation
-    $sql = "SELECT ci.cart_item_id, p.product_id, p.product_name, ci.cart_item_qty, ci.cart_item_price FROM cart_item AS ci JOIN product AS p ON ci.product_id = p.product_id WHERE ci.cust_id = ?";
-    $stmt = $conn->prepare($sql);
-    if ($stmt === false) {
-      echo json_encode(["status" => "error", "message" => "Failed to prepare statement: " . $conn->error]);
-      $conn->close();
-      exit();
-    }
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    $items = [];
-    while ($row = $result->fetch_assoc()) {
-      $items[] = $row;
-    }
-
-    echo json_encode($items);
-    $stmt->close();
+//identify request
+switch ( $_SERVER['REQUEST_METHOD']) {
+  //get cart items
+  case 'GET': 
+    getCartDataFromDB($cust_id, $conn);
     break;
 
-  case 'POST': // Create operation
-    $data = json_decode(file_get_contents("php://input"), true);
-    // Get selected address_id from request
-    $address_id = $data['address_id'] ?? null;
+  //place order
+  case 'POST':
+  placeOrder($cust_id, $conn);
+    break;
 
-    // Validate
+  // modify cart item quantity
+  case 'PUT':
+  modifyCartDataToDB($cust_id, $conn);
+    break;
+
+  //delete cart item
+  case 'DELETE': 
+    deleteCartFromDB($cust_id, $conn);
+    break;
+
+  //undefined method
+  default:
+    echo json_encode(["status" => "error", "message" => "Method undefined and not allowed"]);
+    break;
+}
+
+function placeOrder($cust_id, $conn){
+
+   $data = json_decode(file_get_contents("php://input"), true);
+    
+    // delivery address id
+    $address_id = $data['address_id'] ;
     if (!$address_id) {
       echo json_encode(["status" => "error", "message" => "No address selected."]);
-      exit;
+      exit();
     }
 
-    // Check if the request is to place an order (contains an array of items)
-    if (isset($data['items']) && is_array($data['items'])) {
-      $items_to_order = $data['items'];
-      $total_amount = 0;
-      $cart_item_ids_to_delete = [];
 
-      // Begin transaction for data integrity
+    if (isset($data['items'])) {
+      //place order items
+      $orderItems = $data['items'];
+      //item total amount
+      $total_amount = 0;
+
+      // Transaction for insert query avoid interuption when inserting cart item 
       $conn->begin_transaction();
 
       try {
 
         // Calculate total amount
-        foreach ($items_to_order as $item) {
+        foreach ($orderItems as $item) {
           $total_amount += ($item['cart_item_qty'] * $item['cart_item_price']);
         }
 
-        // Insert into the Order table
+        // Insert into the order table
         $order_status = "pending";
         $order_date = date("Y-m-d H:i:s");
-        $sql_order = "INSERT INTO `Order` (address, order_date, order_status, total_amt, cust_id) VALUES (?, ?, ?, ?, ?)";
-        $stmt_order = $conn->prepare($sql_order);
-        $stmt_order->bind_param("issdi", $address_id, $order_date, $order_status, $total_amount, $id);
-        $stmt_order->execute();
+        $sqlOrder = "INSERT INTO `order` (address, order_date, order_status, total_amt, cust_id) VALUES (?, ?, ?, ?, ?)";
+        $stmtOrder = $conn->prepare($sqlOrder);
+        $stmtOrder->bind_param("issdi", $address_id, $order_date, $order_status, $total_amount, $cust_id);
+        $stmtOrder->execute();
+        //get auto increment order id 
         $order_id = $conn->insert_id;
-        $stmt_order->close();
+        $stmtOrder->close();
 
-        // Insert into the order_item table and collect cart item IDs to delete
-        $sql_order_item = "INSERT INTO order_item (order_item_qty, order_item_price, order_id, product_id) VALUES (?, ?, ?, ?)";
-        $stmt_order_item = $conn->prepare($sql_order_item);
-
-        $sql_update_stock = "UPDATE product SET stock_qty = stock_qty - ? WHERE product_id = ?";
-        $stmt_update_stock = $conn->prepare($sql_update_stock);
-
-        foreach ($items_to_order as $item) {
+        foreach ($orderItems as $item) {
+          //retrieve data from cart
           $order_item_qty = $item['cart_item_qty'];
           $order_item_price = $item['cart_item_price'];
           $product_id = $item['product_id'];
-          $cart_item_ids_to_delete[] = $item['cart_item_id'];
+          //put cart id into delete array
+          $cart_item_delete = $item['cart_item_id'];
 
-          $stmt_order_item->bind_param("idii", $order_item_qty, $order_item_price, $order_id, $product_id);
-          $stmt_order_item->execute();
+          // insert item into each item into table
+          $sqlOrderItem = "INSERT INTO order_item (order_item_qty, order_item_price, order_id, product_id) VALUES (?, ?, ?, ?)";
+          $stmtOrderItem = $conn->prepare($sqlOrderItem);
+          $stmtOrderItem->bind_param("idii", $order_item_qty, $order_item_price, $order_id, $product_id);
+          $stmtOrderItem->execute();
 
-          // Update product stock
-          $stmt_update_stock->bind_param("ii", $order_item_qty, $product_id);
-          $stmt_update_stock->execute();
+          //deduct stock
+          $sqlUpdateStock = "UPDATE product SET stock_qty = stock_qty - ? WHERE product_id = ?";
+          $stmtUpdateStock = $conn->prepare($sqlUpdateStock);
+          $stmtUpdateStock->bind_param("ii", $order_item_qty, $product_id);
+          $stmtUpdateStock->execute();
+
+          //delete cart item
+          $sqlDeleteCart = "DELETE FROM cart_item WHERE cart_item_id = ?";
+          $stmtDeleteCart = $conn->prepare($sqlDeleteCart);
+          $stmtDeleteCart->bind_param("i", $cart_item_delete);
+          $stmtDeleteCart->execute();
+          $stmtDeleteCart->close();  // Close it after execution
+
         }
-        $stmt_order_item->close();
+        $stmtOrderItem->close();
 
-        // Delete items from the cart_item table
-        $placeholders = implode(',', array_fill(0, count($cart_item_ids_to_delete), '?'));
-        $sql_delete = "DELETE FROM cart_item WHERE cart_item_id IN ($placeholders) AND cust_id = ?";
-        $stmt_delete = $conn->prepare($sql_delete);
-
-        // Construct the types string for bind_param
-        $types = str_repeat('i', count($cart_item_ids_to_delete)) . 'i';
-
-        // Bind the parameters
-        $params = array_merge($cart_item_ids_to_delete, [$id]);
-        $stmt_delete->bind_param($types, ...$params);
-        $stmt_delete->execute();
-        $stmt_delete->close();
-
-        // Commit the transaction
+        //stop transaction
         $conn->commit();
         echo json_encode(["status" => "success", "message" => "Order placed successfully!"]);
       } catch (Exception $e) {
-        // Rollback on error
+        //rollback transaction if error
         $conn->rollback();
-        echo json_encode(["status" => "error", "message" => "Order failed: " . $e->getMessage()]);
+        echo json_encode(["status" => "error", "message" => "Order failed, " . $e->getMessage()]);
       }
     } else {
-      // Original 'Add to Cart' functionality
-      $productId = filter_var($data['product_id'], FILTER_SANITIZE_NUMBER_INT);
-      $productPrice = filter_var($data['product_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-      $productQty = filter_var($data['product_quantity'], FILTER_SANITIZE_NUMBER_INT);
-      $cartStatus = filter_var($data['cart_status'], FILTER_SANITIZE_STRING);
-
-      $sql = "INSERT INTO cart_item (cust_id, product_id, cart_item_qty, cart_item_price, cart_status) VALUES (?, ?, ?, ?, ?)";
-      $stmt = $conn->prepare($sql);
-
-      if ($stmt === false) {
-        echo json_encode(["status" => "error", "message" => "Failed to prepare statement: " . $conn->error]);
-        $conn->close();
-        exit();
-      }
-
-      $stmt->bind_param("iisds", $id, $productId, $productQty, $productPrice, $cartStatus);
-
-      if ($stmt->execute()) {
-        echo json_encode(["status" => "success", "message" => "Product added to cart successfully!"]);
-      } else {
-        echo json_encode(["status" => "error", "message" => "Error adding product to cart: " . $stmt->error]);
-      }
-      $stmt->close();
+      echo json_encode(["status" => "error", "message" => "No items selected. Please try again. " ]);
     }
-    break;
+}
 
-  case 'PUT': // Update operation
+//modify cart quantity
+function modifyCartDataToDB($cust_id, $conn){
+  
     $data = json_decode(file_get_contents("php://input"), true);
 
-    $cartId = filter_var($data['cart_item_id'], FILTER_SANITIZE_NUMBER_INT);
-    $newQty = filter_var($data['cart_item_qty'], FILTER_SANITIZE_NUMBER_INT);
+    $cartItemId = $data['cart_item_id'];
+    $newQuantity = $data['cart_item_qty'];
 
-    $sql = "UPDATE cart_item SET cart_item_qty = ? WHERE cart_item_id = ? AND cust_id = ?";
-    $stmt = $conn->prepare($sql);
-
-    if ($stmt === false) {
-      echo json_encode(["status" => "error", "message" => "Failed to prepare statement: " . $conn->error]);
-      $conn->close();
+    if(empty($cartItemId) || empty($newQuantity)){
+      echo json_encode(["status" => "error", "message" => "Invalid cart item or quantity."]);
       exit();
     }
 
-    $stmt->bind_param("iii", $newQty, $cartId, $id);
+    $sqlModifyCart = "UPDATE cart_item SET cart_item_qty = ? WHERE cart_item_id = ? AND cust_id = ?";
+    $stmtModifyCart = $conn->prepare($sqlModifyCart);
 
-    if ($stmt->execute()) {
+    $stmtModifyCart->bind_param("iii", $newQuantity, $cartItemId, $cust_id);
+
+    if ($stmtModifyCart->execute()) {
       echo json_encode(["status" => "success", "message" => "Cart item updated successfully!"]);
     } else {
-      echo json_encode(["status" => "error", "message" => "Error updating cart item: " . $stmt->error]);
+      echo json_encode(["status" => "error", "message" => "Error updating cart item, " . $stmtModifyCart->error]);
     }
-    $stmt->close();
-    break;
+    $stmtModifyCart->close();
+}
 
-  case 'DELETE': // Delete operation
+//get cart from DB
+function getCartDataFromDB($cust_id, $conn){
+
+    $sqlFetchCart = "SELECT ci.cart_item_id, p.product_id, p.product_name, ci.cart_item_qty, ci.cart_item_price FROM cart_item AS ci JOIN product AS p ON ci.product_id = p.product_id WHERE ci.cust_id = ?";
+    $stmtFetchCart = $conn->prepare($sqlFetchCart);
+
+    $stmtFetchCart->bind_param("i", $cust_id);
+    if($stmtFetchCart->execute()) {
+      $result = $stmtFetchCart->get_result();
+  
+      $items = [];
+      while ($row = $result->fetch_assoc()) {
+        $items[] = $row;
+      }
+      echo json_encode(["status" => "success", "message" => "Cart item updated successfully!", "items" => $items]);
+    } else {
+      echo json_encode(["status" => "error", "message" => "Error fetching data from database. Please refresh the page or try again."]);
+    }
+    $stmtFetchCart->close();
+}
+
+//delete cart item
+function deleteCartFromDB($cust_id, $conn){
+
     $data = json_decode(file_get_contents("php://input"), true);
 
-    $cartId = filter_var($data['cart_item_id'], FILTER_SANITIZE_NUMBER_INT);
+    $cartId = $data['cart_item_id'];
 
-    $sql = "DELETE FROM cart_item WHERE cart_item_id = ? AND cust_id = ?";
-    $stmt = $conn->prepare($sql);
-
-    if ($stmt === false) {
-      echo json_encode(["status" => "error", "message" => "Failed to prepare statement: " . $conn->error]);
-      $conn->close();
+    if(empty($cartId)){
+      echo json_encode(["status" => "error", "message" => "Invalid cart item."]);
       exit();
     }
 
-    $stmt->bind_param("ii", $cartId, $id);
+    $sqlDeleteCart = "DELETE FROM cart_item WHERE cart_item_id = ? AND cust_id = ?";
+    $stmtDeleteCart = $conn->prepare($sqlDeleteCart);
 
-    if ($stmt->execute()) {
+    $stmtDeleteCart->bind_param("ii", $cartId, $cust_id);
+
+    if ($stmtDeleteCart->execute()) {
       echo json_encode(["status" => "success", "message" => "Cart item deleted successfully!"]);
     } else {
-      echo json_encode(["status" => "error", "message" => "Error deleting cart item: " . $stmt->error]);
+      echo json_encode(["status" => "error", "message" => "Error deleting cart item," . $stmtDeleteCart->error]);
     }
-    $stmt->close();
-    break;
-
-  default:
-    // Handle unsupported methods
-    http_response_code(405);
-    echo json_encode(["status" => "error", "message" => "Method not allowed"]);
-    break;
+    $stmtDeleteCart->close();
 }
 
 $conn->close();
