@@ -48,8 +48,6 @@ if (isset($_SESSION['id'])) {
                         <li><a href="/Wad_assignment/order/index.php">Order</a></li>
                         <li><a href="/Wad_assignment/manage-profile/index.php">Manage Profile</a></li>
                         <li><a href="/Wad_assignment/auth/login/log-out.php" class="logout-link">Logout</a></li>
-                    <?php else: ?>
-                        <li><a href="/Wad_assignment/auth/login/index.php" class="login-link">Login</a></li>
                     <?php endif; ?>
                 </ul>
             </nav>
@@ -67,8 +65,6 @@ if (isset($_SESSION['id'])) {
                     <li class="order"><a href="/Wad_assignment/order/index.php">Order</a></li>
                     <li class="manage-profile"><a href="/Wad_assignment/manage-profile/index.php">Manage Profile</a></li>
                     <li><a href="/Wad_assignment/auth/login/log-out.php" class="logout-link">Logout</a></li>
-                <?php else: ?>
-                    <li><a href="/Wad_assignment/auth/login/index.php" class="login-link">Login</a></li>
                 <?php endif; ?>
             </ul>
         </nav>

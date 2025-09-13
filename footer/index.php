@@ -35,7 +35,7 @@
                         <i class="fa fa-envelope-square"></i>
                     </button>
                     <a href="mailto:xx@gmail.com">
-                        xx@gmail.com
+                        neo@gmail.com
                     </a>
                 </div>
 

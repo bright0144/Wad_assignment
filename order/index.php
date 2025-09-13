@@ -18,10 +18,12 @@ if (!isset($_SESSION['id'])) {
 
 <body class="order">
     <?php include("../header/index.php"); ?>
-    <h1 class="orderTitle">Orders</h1>
-    <div id="orderContainer" class="orderContainer"></div>
+    <main>
+        <h1 class="orderTitle">Orders</h1>
+        <div id="orderContainer" class="orderContainer"></div>
+    </main>
     <?php include("../footer/index.php"); ?>
+    <script src="script.js"></script>
 </body>
-<script src="script.js"></script>
 
 </html>
