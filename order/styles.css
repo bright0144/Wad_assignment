@@ -61,6 +61,13 @@ body {
   margin-bottom: 5px;
   padding: 8px;
   border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.orderItem div:first-child {
+  font-weight: bold;
 }
 
 /* No orders message */

@@ -1,19 +1,27 @@
-
+// On window load
 window.onload = function () {
-  fetch('order_data.php')
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === 'success') {
+  // Fetch all user order
+  fetch("order_data.php")
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === "success") {
         renderOrders(data.orders);
+      } else {
+        alert(data.message);
       }
     })
-    .catch(error => console.error('Error fetching orders:', error));
+    .catch((error) => {
+      alert("Error fetching order");
+      console.error("Error fetching orders:", error);
+    });
 
+  // Displays all user order
   function renderOrders(orders) {
-    const container = document.getElementById('orderContainer');
+    const container = document.getElementById("orderContainer");
     if (!orders.length) {
-      const noOrders = document.createElement('p');
-      noOrders.className = 'noOrders';
+      // Display no order message
+      const noOrders = document.createElement("p");
+      noOrders.className = "noOrders";
       noOrders.textContent = "You have no orders.";
       container.appendChild(noOrders);
       return;
@@ -45,20 +53,20 @@ window.onload = function () {
         itemList.appendChild(itemLi);
       });
 
-      orderDiv.appendChild(itemList);
+      orderDiv.appendChild(orderItemList);
 
-      const buttonContainer = document.createElement('div');
-      buttonContainer.className = 'orderButtonContainer';
+      const buttonContainer = document.createElement("div");
+      buttonContainer.className = "orderButtonContainer";
 
       // === Remove Button ===
       const removeBtn = document.createElement('button');
       removeBtn.textContent = "Remove Order";
-      removeBtn.className = 'removeOrderBtn';
+      removeBtn.className = "removeOrderBtn";
       removeBtn.onclick = function () {
         if (confirm(`Are you sure you want to remove Order #${order.order_id}?`)) {
           fetch(`order_data.php?orderId=${order.order_id}`, {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
           })
           .then(res => res.json())
           .then(result => {
@@ -75,6 +83,7 @@ window.onload = function () {
           });
         }
       };
+
       buttonContainer.appendChild(removeBtn);
 
       // === Review Button ===
@@ -120,26 +129,27 @@ window.onload = function () {
       if (timeDiff <= oneDay && order.order_status === 'pending') {
         const cancelBtn = document.createElement('button');
         cancelBtn.textContent = "Cancel Order";
-        cancelBtn.className = 'cancelOrderBtn';
+        cancelBtn.className = "cancelOrderBtn";
         cancelBtn.onclick = function () {
+          // Prompt user to confirm the action
           if (confirm(`Do you want to cancel Order #${order.order_id}?`)) {
-            fetch('order_data.php', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
+            fetch("order_data.php", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                action: 'cancelOrder',
-                orderId: order.order_id
-              })
+                action: "cancelOrder",
+                orderId: order.order_id,
+              }),
             })
-            .then(res => res.json())
-            .then(result =>  {
-                alert(result.message)
+              .then((res) => res.json())
+              .then((result) => {
+                alert(result.message);
                 window.location.href();
-          })
-            .catch(err => {
-              console.error("Cancel failed:", err);
-              alert("Error canceling order.");
-            });
+              })
+              .catch((err) => {
+                console.error("Cancel failed:", err);
+                alert("Error canceling order.");
+              });
           }
         };
         buttonContainer.appendChild(cancelBtn);
@@ -150,4 +160,3 @@ window.onload = function () {
     });
   }
 };
-

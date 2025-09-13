@@ -1,5 +1,5 @@
 <?php
-session_start(); 
+session_start();
 
 // Redirect to login if not logged in
 if (!isset($_SESSION['id'])) {
@@ -10,12 +10,12 @@ if (!isset($_SESSION['id'])) {
 
 $current_user_id = filter_var($_SESSION['id'], FILTER_VALIDATE_INT);
 
-include_once("../config/config.php"); 
+include_once("../config/config.php");
 
-if($_SERVER['REQUEST_METHOD'] == "GET"){
+if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
     $orders = [];
-    
+
     $sql = "
     SELECT 
         o.order_id, o.order_date, o.order_status, o.total_amt, o.cust_id, 
@@ -24,57 +24,55 @@ if($_SERVER['REQUEST_METHOD'] == "GET"){
     JOIN customer_addresses ca ON o.address = ca.address_id
     WHERE o.cust_id = ?
     ";
-    
+
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $current_user_id);
     $stmt->execute();
     $result = $stmt->get_result();
-    
+
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $orders[] = $row;
         }
     }
-    
+
     // Add order items
     foreach ($orders as &$order) {
         $orderItems = [];
         $orderId = $order['order_id'];
-    
-        $stmtItems = $conn->prepare("SELECT oi.order_item_id, oi.order_item_qty, oi.order_item_price, p.product_name FROM order_item oi JOIN product p ON oi.product_id = p.product_id WHERE oi.order_id = ?");
+
+        $stmtItems = $conn->prepare("SELECT oi.order_item_id, oi.order_item_qty, oi.order_item_price, p.product_name, p.product_id FROM order_item oi JOIN product p ON oi.product_id = p.product_id WHERE oi.order_id = ?");
         $stmtItems->bind_param("i", $orderId);
         $stmtItems->execute();
         $resultItems = $stmtItems->get_result();
-    
+
         if ($resultItems->num_rows > 0) {
             while ($row = $resultItems->fetch_assoc()) {
                 $orderItems[] = $row;
             }
         }
-    
+
         $order['items'] = $orderItems;
     }
-    
+
     header('Content-Type: application/json');
     echo json_encode(["status" => "success", "orders" => $orders]);
-
-} else if($_SERVER['REQUEST_METHOD'] == "DELETE") {
-$orderId = $_GET['orderId'] ?? null;
- if (!$orderId) {
+} else if ($_SERVER['REQUEST_METHOD'] == "DELETE") {
+    $orderId = $_GET['orderId'] ?? null;
+    if (!$orderId) {
         echo json_encode(["status" => "error", "message" => "Missing orderId"]);
         exit();
     }
 
-$sql = "DELETE FROM `order` WHERE order_id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $orderId);
+    $sql = "DELETE FROM `order` WHERE order_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $orderId);
 
-  if ($stmt->execute()) {
+    if ($stmt->execute()) {
         echo json_encode(["status" => "success", "message" => "Order #$orderId has been deleted successfully"]);
     } else {
         echo json_encode(["status" => "error", "message" => "Failed to delete Order #$orderId"]);
     }
-
 } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // Handle JSON input
     $rawInput = file_get_contents("php://input");
@@ -106,7 +104,6 @@ $stmt->bind_param("i", $orderId);
         } else {
             echo json_encode(["status" => "error", "message" => "Inserting review failed. Please try again and refresh page."]);
         }
-
     } elseif ($action === 'cancelOrder') {
         $orderId = $data['orderId'] ?? null;
 
@@ -128,6 +125,3 @@ $stmt->bind_param("i", $orderId);
         echo json_encode(["status" => "error", "message" => "Unknown action: $action"]);
     }
 }
-
-
-
