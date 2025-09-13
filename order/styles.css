@@ -57,7 +57,8 @@ body {
 }
 
 .orderItem {
-  background-color: #eee;
+  background-color: #444;
+  color: white;
   margin-bottom: 5px;
   padding: 8px;
   border-radius: 4px;
