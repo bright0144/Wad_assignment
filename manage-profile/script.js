@@ -169,7 +169,7 @@ const saveNewAddress = (e) => {
             </button>
             `;
         additionalAddresses.appendChild(newAddressDiv);
-        alert("Successfully saved the new address");
+        alert(data.message);
         closeModal();
       } else {
         alert(data.message);
@@ -193,7 +193,7 @@ const removeAddress = (addressId) => {
     .then((data) => {
       if (data.success) {
         document.getElementById(`address-${addressId}`).remove();
-        alert("Address is removed");
+        alert(data.message);
         closeModal();
       } else {
         alert(data.message);
