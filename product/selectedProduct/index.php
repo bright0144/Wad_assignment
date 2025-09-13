@@ -28,7 +28,7 @@ if (!isset($_SESSION['id'])) {
   <main class="mt-[100px] w-[90%]">
     <!-- Card details -->
     <div id="cardDetailsContainer" class="flex"></div>
-    <div id="statusMessage" class="mt-4 text-center text-sm text-gray-500"></div>
+    <div id="statusMessage" class="mt-4 text-center text-sm text-red-500"></div>
 
     <!-- Card reviews -->
     <h1 class="reviewTitle text-2xl font-semibold text-white mt-12 mb-6 border-b pb-2">
@@ -38,7 +38,7 @@ if (!isset($_SESSION['id'])) {
     </div>
 
     <!-- Error message (hidden by default) -->
-    <div id="errorMessage" class="hidden mt-6 text-center text-red-500 font-medium"></div>
+    <div id="errorMessage" class="mt-6 text-center text-red-500 font-medium"></div>
   </main>
 
   <?php include("../../footer/index.php"); ?>

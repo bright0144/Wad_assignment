@@ -116,7 +116,7 @@ function placeOrder($cust_id, $conn){
       } catch (Exception $e) {
         //rollback transaction if error
         $conn->rollback();
-        echo json_encode(["status" => "error", "message" => "Order failed, " . $e->getMessage()]);
+        echo json_encode(["status" => "error", "message" => "Order failed. Please try again and refresh page "]);
       }
     } else {
       echo json_encode(["status" => "error", "message" => "No items selected. Please try again. " ]);
@@ -144,7 +144,7 @@ function modifyCartDataToDB($cust_id, $conn){
     if ($stmtModifyCart->execute()) {
       echo json_encode(["status" => "success", "message" => "Cart item updated successfully!"]);
     } else {
-      echo json_encode(["status" => "error", "message" => "Error updating cart item, " . $stmtModifyCart->error]);
+      echo json_encode(["status" => "error", "message" => "Error updating cart item, Please try again and refresh the page "]);
     }
     $stmtModifyCart->close();
 }
@@ -152,7 +152,9 @@ function modifyCartDataToDB($cust_id, $conn){
 //get cart from DB
 function getCartDataFromDB($cust_id, $conn){
 
-    $sqlFetchCart = "SELECT ci.cart_item_id, p.product_id, p.product_name, ci.cart_item_qty, ci.cart_item_price FROM cart_item AS ci JOIN product AS p ON ci.product_id = p.product_id WHERE ci.cust_id = ?";
+    $sqlFetchCart = "SELECT ci.cart_item_id, p.product_id, p.product_name, 
+    ci.cart_item_qty, ci.cart_item_price FROM cart_item AS ci JOIN product 
+    AS p ON ci.product_id = p.product_id WHERE ci.cust_id = ?";
     $stmtFetchCart = $conn->prepare($sqlFetchCart);
 
     $stmtFetchCart->bind_param("i", $cust_id);
@@ -190,7 +192,7 @@ function deleteCartFromDB($cust_id, $conn){
     if ($stmtDeleteCart->execute()) {
       echo json_encode(["status" => "success", "message" => "Cart item deleted successfully!"]);
     } else {
-      echo json_encode(["status" => "error", "message" => "Error deleting cart item," . $stmtDeleteCart->error]);
+      echo json_encode(["status" => "error", "message" => "Error deleting cart item, Please try again and refresh the page "]);
     }
     $stmtDeleteCart->close();
 }

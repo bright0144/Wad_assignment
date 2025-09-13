@@ -92,10 +92,11 @@ checkoutButton.addEventListener("click", function () {
   })
     .then((responseJson) => responseJson.json())
     .then((response) => {
-      alert(response.message);
-
       if (response.status === "success") {
+        alert(response.message);
         fetchCartFromDB();
+      } else {
+        alert(response.message);
       }
     })
     .catch((error) => {
@@ -261,10 +262,7 @@ function updateCartItem(cartItemId, newQuantity) {
         //recalculate price
         updateTotalPrice();
       } else {
-        console.error(
-          "failed to update quantity to database , ",
-          response.error
-        );
+       alert(response.message)
       }
     })
     .catch((error) => {
@@ -287,7 +285,7 @@ function deleteCartItem(cartItemId) {
         //update the page
         fetchCartFromDB();
       } else {
-        console.error("Failed to delete cart item:", response.message);
+        alert(response.message);
       }
     })
     .catch((error) => {

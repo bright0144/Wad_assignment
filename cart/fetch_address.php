@@ -32,7 +32,7 @@ try {
     $stmtFetchAddress->close();
     echo json_encode(["status" => "success", "addresses" => $addresses]);
 } catch (Exception $e) {
-  echo json_encode(["status" => "error", "message" => "An error occurred when fetching address, " . $e->getMessage()]);
+  echo json_encode(["status" => "error", "message" => "An error occurred when fetching address, Please try again or refresh page "]);
 }
 
 $conn->close();

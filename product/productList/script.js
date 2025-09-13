@@ -269,7 +269,7 @@ function pagination(totalRows) {
     paginationContainer.appendChild(prevButton);
   }
 
-  if (totalRows > currentPage * 10) {
+  if (totalRows > currentPage * 9) {
     const nextButton = document.createElement("button");
     nextButton.textContent = "Next";
     nextButton.addEventListener("click", () => {

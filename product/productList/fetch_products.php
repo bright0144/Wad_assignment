@@ -2,10 +2,9 @@
 //Necessary database connection
 include_once("../../config/config.php");
 
-// Item limited to 10 item per query
+// Item limited to 9 item per query
 $limit = 9;
 
-// Get all the query params
 
 // Get the search query
 $searchQuery = isset($_GET['search']) ? trim($_GET['search']) : '';
