@@ -41,7 +41,7 @@ window.onload = function () {
       order.items.forEach(item => {
         const itemLi = document.createElement('li');
         itemLi.className = 'orderItem';
-        itemLi.textContent = `Product ID: ${item.product_id}, Quantity: ${item.order_item_qty}, Price: $${item.order_item_price}`;
+        itemLi.textContent = `Product Name: ${item.product_name}, Quantity: ${item.order_item_qty}, Price: $${item.order_item_price}`;
         itemList.appendChild(itemLi);
       });
 

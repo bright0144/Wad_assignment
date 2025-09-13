@@ -41,7 +41,7 @@ if($_SERVER['REQUEST_METHOD'] == "GET"){
         $orderItems = [];
         $orderId = $order['order_id'];
     
-        $stmtItems = $conn->prepare("SELECT * FROM order_item WHERE order_id = ?");
+        $stmtItems = $conn->prepare("SELECT oi.order_item_id, oi.order_item_qty, oi.order_item_price, p.product_name FROM order_item oi JOIN product p ON oi.product_id = p.product_id WHERE oi.order_id = ?");
         $stmtItems->bind_param("i", $orderId);
         $stmtItems->execute();
         $resultItems = $stmtItems->get_result();
