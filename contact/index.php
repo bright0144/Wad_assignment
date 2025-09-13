@@ -48,7 +48,7 @@ if (!isset($_SESSION['id'])) {
         <div style="color: white;">
           <h2>Neo Chean Ming</h2>
           <p>Telephone: +60 12 223 1234</p>
-          <p>Email: xx@gmail.com</p>
+          <p>Email: neo@gmail.com</p>
           <p> Location: Jalan Sungai Long, Bandar Sungai Long, 43000 Kajang, Selangor</p>
         </div>
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127492.08319207394!2d101.72871372297307!3d3.060527843490911!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc34a5f21a8235%3A0x78796ffc32ce3fcd!2sUniversiti%20Tunku%20Abdul%20Rahman%20(UTAR)!5e0!3m2!1sen!2smy!4v1757494244135!5m2!1sen!2smy" width="100%" height="450px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>

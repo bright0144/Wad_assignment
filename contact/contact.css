@@ -28,7 +28,6 @@ h1 {
   font-weight: bold;
 }
 
-/* Contact info section */
 .contact-info {
   display: flex;
   justify-content: space-around;

@@ -59,9 +59,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
     echo json_encode(["status" => "success", "orders" => $orders]);
 }  else if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $rawInput = file_get_contents("php://input");
-    $data = json_decode($rawInput, true);
 
+     $data = json_decode(file_get_contents('php://input'), true);
     $action = $data['action'] ?? null;
 
     if (!$action) {

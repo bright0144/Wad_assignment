@@ -80,8 +80,8 @@ window.onload = function () {
                   alert(result.message);
                 }
               })
-              .catch((err) => {
-                console.error("Error submitting review:", err);
+              .catch((error) => {
+                console.error("Error submitting review:", error);
               });
           } else {
             //avoid empty string issue

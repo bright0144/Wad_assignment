@@ -27,8 +27,8 @@ function fetchCategoryFromDB() {
         categorySelectElement.appendChild(categoryOption);
       });
     })
-    .catch((err) => {
-      console.log(err);
+    .catch((error) => {
+      console.log(error);
       alert("Error fetching category from database");
     });
 }
@@ -251,6 +251,7 @@ function pagination(totalRows) {
 
   paginationContainer.innerHTML = "";
 
+  //not in first page display previous button
   if (currentPage > 1) {
     const prevButton = document.createElement("button");
     prevButton.textContent = "Previous";
@@ -269,6 +270,7 @@ function pagination(totalRows) {
     paginationContainer.appendChild(prevButton);
   }
 
+  //if total rows > , still have cards yet to display
   if (totalRows > currentPage * 9) {
     const nextButton = document.createElement("button");
     nextButton.textContent = "Next";

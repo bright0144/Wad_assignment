@@ -32,7 +32,8 @@ if (isset($_SESSION['id'])) {
 
         <!-- Mobile nav (visible on small screens, hidden on md and up) -->
         <div class="mobile-nav-container md:hidden flex flex-col">
-            <button id="hamburger" class="text-white md:hidden p-2 border-2 border-[#FFA500] rounded-md hover:opacity-70 transition-opacity duration-250 mb-3">
+            <button id="hamburger" class="text-white md:hidden p-2 border-2 border-[#FFA500]
+             rounded-md hover:opacity-70 transition-opacity duration-250 mb-3">
                 Open Navigation Menu
             </button>
 

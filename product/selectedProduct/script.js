@@ -152,7 +152,6 @@ function getReview(productId) {
 
       //display review
       response.reviews.forEach((review) => {
-        const likeIcon = "♥";
         const likeCount = review.like_count;
 
         const reviewDiv = document.createElement("div");
@@ -190,10 +189,6 @@ function getReview(productId) {
               <hr class="mt-4 border-gray-200">
             `;
         productReviewsContainer.appendChild(reviewDiv);
-
-        //The like icon is red when user is liked, else white
-        const likeButton = reviewDiv.querySelector(".likeButton");
-        likeButton.style.color = review.likedByUser ? "red" : "black";
       });
       //event listener for toogle like button after all button is displayed
       toogleLike();
