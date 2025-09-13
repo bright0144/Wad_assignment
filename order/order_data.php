@@ -41,7 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         $orderItems = [];
         $orderId = $order['order_id'];
 
-        $stmtItems = $conn->prepare("SELECT oi.order_item_id, oi.order_item_qty, oi.order_item_price, p.product_name, p.product_id FROM order_item oi JOIN product p ON oi.product_id = p.product_id WHERE oi.order_id = ?");
+        $stmtItems = $conn->prepare("SELECT oi.order_item_id, oi.order_item_qty,
+         oi.order_item_price, p.product_name, p.product_id FROM order_item oi JOIN product
+          p ON oi.product_id = p.product_id WHERE oi.order_id = ?");
         $stmtItems->bind_param("i", $orderId);
         $stmtItems->execute();
         $resultItems = $stmtItems->get_result();
@@ -55,26 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         $order['items'] = $orderItems;
     }
 
-    header('Content-Type: application/json');
     echo json_encode(["status" => "success", "orders" => $orders]);
-} else if ($_SERVER['REQUEST_METHOD'] == "DELETE") {
-    $orderId = $_GET['orderId'] ?? null;
-    if (!$orderId) {
-        echo json_encode(["status" => "error", "message" => "Missing orderId"]);
-        exit();
-    }
-
-    $sql = "DELETE FROM `order` WHERE order_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $orderId);
-
-    if ($stmt->execute()) {
-        echo json_encode(["status" => "success", "message" => "Order #$orderId has been deleted successfully"]);
-    } else {
-        echo json_encode(["status" => "error", "message" => "Failed to delete Order #$orderId"]);
-    }
-} else if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    // Handle JSON input
+}  else if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $rawInput = file_get_contents("php://input");
     $data = json_decode($rawInput, true);
 
@@ -122,6 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
             echo json_encode(["status" => "error", "message" => "Cancelling order failed. Please try again and refresh page."]);
         }
     } else {
-        echo json_encode(["status" => "error", "message" => "Unknown action: $action"]);
+            echo json_encode(["status" => "error", "message" => "Cancelling order failed. Please try again and refresh page."]);
     }
 }

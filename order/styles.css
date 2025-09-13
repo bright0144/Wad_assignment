@@ -82,11 +82,10 @@ body {
 .orderButtonContainer {
   margin-top: 10px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 10px; 
 }
 
-.removeOrderBtn,
 .cancelOrderBtn,
 .reviewOrderBtn {
   padding: 8px 14px;
@@ -95,15 +94,6 @@ body {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-}
-
-.removeOrderBtn {
-  background-color: #dc3545;
-  color: white;
-}
-
-.removeOrderBtn:hover {
-  background-color: #c82333;
 }
 
 .cancelOrderBtn {
@@ -123,8 +113,6 @@ body {
 .reviewOrderBtn:hover {
   background-color: #0056b3;
 }
-
-
 
 
 @media (max-width: 600px) {

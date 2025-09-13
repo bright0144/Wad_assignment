@@ -27,9 +27,7 @@ window.onload = function () {
       return;
     }
 
-    const currentDate = new Date();
-    const oneDay = 24 * 60 * 60 * 1000;
-
+  
     orders.forEach((order) => {
       const orderDiv = document.createElement("div");
       orderDiv.setAttribute("id", order.order_id);
@@ -61,7 +59,7 @@ window.onload = function () {
         reviewBtn.onclick = function () {
           // Prompt user to enter review
           const comment = prompt("Enter your review:");
-          if (comment) {
+          if (comment && comment != "") {
             const productId = item.product_id;
 
             fetch("order_data.php", {
@@ -84,8 +82,10 @@ window.onload = function () {
               })
               .catch((err) => {
                 console.error("Error submitting review:", err);
-                alert("Review failed.");
               });
+          } else {
+            //avoid empty string issue
+            alert("invalid comment. Please try again.")
           }
         };
         itemLi.appendChild(reviewBtn);
@@ -96,39 +96,10 @@ window.onload = function () {
       const buttonContainer = document.createElement("div");
       buttonContainer.className = "orderButtonContainer";
 
-      // Remove order btn
-      const removeBtn = document.createElement("button");
-      removeBtn.textContent = "Remove Order";
-      removeBtn.className = "removeOrderBtn";
-      removeBtn.onclick = function () {
-        if (
-          // Prompt user to confirm the delete action
-          confirm(`Are you sure you want to remove Order #${order.order_id}?`)
-        ) {
-          // Remove the order
-          fetch(`order_data.php?orderId=${order.order_id}`, {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-          })
-            .then((response) => response.json())
-            .then((result) => {
-              if (result.status === "success") {
-                alert(result.message);
-                orderDiv.remove();
-              } else {
-                alert(result.message);
-              }
-            })
-            .catch((err) => {
-              console.error("Delete failed:", err);
-              alert("Error deleting order.");
-            });
-        }
-      };
-
-      buttonContainer.appendChild(removeBtn);
-
       // Cancel order btn
+      const currentDate = new Date();
+      const oneDay = 24 * 60 * 60 * 1000;
+
       const orderDate = new Date(order.order_date);
       const timeDiff = currentDate - orderDate;
 
@@ -150,12 +121,15 @@ window.onload = function () {
             })
               .then((res) => res.json())
               .then((result) => {
-                alert(result.message);
-                window.location.href();
+                if(result.status === 'success'){
+                  alert(result.message);
+                  window.location.href();
+                } else {
+                  alert(result.message);
+                }
               })
-              .catch((err) => {
-                console.error("Cancel failed:", err);
-                alert("Error canceling order.");
+              .catch((error) => {
+                console.error("Cancel failed, ", error);
               });
           }
         };
