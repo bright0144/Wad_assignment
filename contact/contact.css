@@ -21,7 +21,7 @@ body {
 
 h1 {
   text-align: center;
-  color: #FFA500;
+  color: #ffa500;
   margin-bottom: 30px;
   margin-top: 10px;
   font-size: xx-large;
@@ -49,7 +49,7 @@ h1 {
 .contact-item button {
   background: none;
   border: none;
-  color: #FFA500;
+  color: #ffa500;
   font-size: 40px;
   cursor: default;
   user-select: none;
@@ -108,12 +108,12 @@ form div {
 form input[type="text"]:focus,
 form input[type="email"]:focus,
 form textarea:focus {
-  border-color: #FFA500;
+  border-color: #ffa500;
   outline: none;
 }
 
 form button[type="submit"] {
-  background-color: #FFA500;
+  background-color: #ffa500;
   color: white;
   border: none;
   padding: 14px 25px;

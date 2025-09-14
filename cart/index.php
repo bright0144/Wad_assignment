@@ -15,7 +15,7 @@ if (!isset($_SESSION['id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/Wad_assignment/cart/cart.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
 </head>
@@ -39,6 +39,6 @@ if (!isset($_SESSION['id'])) {
     </main>
     <?php include("../footer/index.php"); ?>
 </body>
-<script src="script.js"></script>
+<script src="cart.js"></script>
 
 </html>

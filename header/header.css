@@ -30,7 +30,7 @@ button {
 body.contact li.contact > a,
 body.product li.product > a,
 body.cart li.cart > a,
-body.order li.order > a, 
+body.order li.order > a,
 body.manage-profile li.manage-profile > a {
   color: #ffa500;
   text-decoration: underline;

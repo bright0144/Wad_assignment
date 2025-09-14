@@ -14,20 +14,20 @@ if (!isset($_SESSION["id"])) {
 $cust_id = $_SESSION["id"];
 
 //identify request
-switch ( $_SERVER['REQUEST_METHOD']) {
+switch ($_SERVER['REQUEST_METHOD']) {
   //get comment
-  case 'GET': 
+  case 'GET':
     getComment($cust_id, $conn);
     break;
 
   //add to cart
   case 'POST':
-  addToCart($cust_id, $conn);
+    addToCart($cust_id, $conn);
     break;
 
   // toogle like
   case 'PUT':
-  toggleLike($cust_id, $conn);
+    toggleLike($cust_id, $conn);
     break;
 
   //undefined method
@@ -36,7 +36,8 @@ switch ( $_SERVER['REQUEST_METHOD']) {
     break;
 }
 
-function addToCart($cust_id, $conn) {
+function addToCart($cust_id, $conn)
+{
 
   $data = json_decode(file_get_contents('php://input'), true);
 
@@ -44,7 +45,7 @@ function addToCart($cust_id, $conn) {
   $productPrice = $data['productPrice'];
   $productQuantity = $data['productQuantity'];
 
-  if(empty($productId) || empty($productPrice) || empty($productQuantity)) {
+  if (empty($productId) || empty($productPrice) || empty($productQuantity)) {
     echo json_encode(["status" => "error", "message" => "No item selected."]);
     exit();
   }
@@ -53,17 +54,17 @@ function addToCart($cust_id, $conn) {
     //check item exisited 
     $sqlQueryCart = "SELECT cart_item_id FROM cart_item where cust_id = ? and product_id = ? ";
     $stmtQueryCart = $conn->prepare($sqlQueryCart);
-  
-    $stmtQueryCart->bind_param("ii",$cust_id, $productId);
-    if($stmtQueryCart->execute()){
+
+    $stmtQueryCart->bind_param("ii", $cust_id, $productId);
+    if ($stmtQueryCart->execute()) {
       $result = $stmtQueryCart->get_result();
       //Item is in cart
-      if($result->num_rows === 1) {
+      if ($result->num_rows === 1) {
         $row = $result->fetch_assoc();
         $cartItemId = $row['cart_item_id'];
         $sqlUpdateCart = "UPDATE cart_item SET cart_item_qty = cart_item_qty + ? WHERE cart_item_id = ?";
         $stmtUpdateCart  = $conn->prepare($sqlUpdateCart);
-        $stmtUpdateCart->bind_param("ii",$productQuantity, $cartItemId);
+        $stmtUpdateCart->bind_param("ii", $productQuantity, $cartItemId);
         $stmtUpdateCart->execute();
         echo json_encode(["status" => "success", "message" => "Selected card is added to cart successfully! "]);
         $stmtUpdateCart->close();
@@ -78,23 +79,24 @@ function addToCart($cust_id, $conn) {
         echo json_encode(["status" => "success", "message" => "Selected card is added to cart successfully! "]);
         $stmtInsertCart->close();
       }
-    } 
+    }
 
     $conn->close();
-  } catch (Exception $e){
+  } catch (Exception $e) {
     echo json_encode(["status" => "error", "message" => "Database Error. Please try again and refresh page"]);
     exit();
   }
 }
 
-function toggleLike($cust_id, $conn) {
+function toggleLike($cust_id, $conn)
+{
 
   $data = json_decode(file_get_contents('php://input'), true);
 
   if (!isset($data['productReviewId'], $data['isLiked'])) {
     echo json_encode(["status" => "error", "message" => "Invalid like data."]);
     exit();
-}
+  }
   $productReviewId = $data['productReviewId'];
   $isLiked = $data['isLiked'];
 
@@ -116,28 +118,29 @@ function toggleLike($cust_id, $conn) {
   $conn->close();
 }
 
-function getComment($cust_id, $conn){
+function getComment($cust_id, $conn)
+{
 
-    if (!isset($_GET['product_id'])) {
-      echo json_encode(["status" => "error", "message" => "Product ID not provided."]);
-      exit();
-    }
+  if (!isset($_GET['product_id'])) {
+    echo json_encode(["status" => "error", "message" => "Product ID not provided."]);
+    exit();
+  }
 
-    $product_id = $_GET['product_id'];
+  $product_id = $_GET['product_id'];
 
-    $sqlFetchComment ="SELECT pr.product_review_id, pr.comment, pr.product_review_date, c.username 
+  $sqlFetchComment = "SELECT pr.product_review_id, pr.comment, pr.product_review_date, c.username 
         FROM product_review AS pr
         JOIN customer AS c ON pr.cust_id = c.cust_id
         WHERE pr.product_id = ? 
         ORDER BY pr.product_review_date DESC";
-    
-    $stmtFetchComment = $conn->prepare($sqlFetchComment);
 
-    $stmtFetchComment->bind_param("i", $product_id);
+  $stmtFetchComment = $conn->prepare($sqlFetchComment);
 
-    if($stmtFetchComment->execute()){
-      $result = $stmtFetchComment->get_result();
-      $reviews = [];
+  $stmtFetchComment->bind_param("i", $product_id);
+
+  if ($stmtFetchComment->execute()) {
+    $result = $stmtFetchComment->get_result();
+    $reviews = [];
     while ($row = $result->fetch_assoc()) {
       $reviews[] = $row;
     }
@@ -155,31 +158,29 @@ function getComment($cust_id, $conn){
       $liked_users = [];
       $liked_by_user = false;
 
-    while ($likeRow = $likeResult->fetch_assoc()) {
-      $like_id = $likeRow['cust_id'];
-      $liked_users[] = $like_id;
+      while ($likeRow = $likeResult->fetch_assoc()) {
+        $like_id = $likeRow['cust_id'];
+        $liked_users[] = $like_id;
 
-    //current user is inside the data, if yes = liked
-    if ($like_id == $cust_id) {
-      $liked_by_user = true;
-    }
-  }
-  
+        //current user is inside the data, if yes = liked
+        if ($like_id == $cust_id) {
+          $liked_by_user = true;
+        }
+      }
+
       $review['like_count'] = count($liked_users);
       $review['liked_by_user'] = $liked_by_user;
-  }
-  $stmtLike->close();
-  $conn->close();
-  $stmtFetchComment->close();
+    }
+    $stmtLike->close();
+    $conn->close();
+    $stmtFetchComment->close();
 
-     echo json_encode([
+    echo json_encode([
       "status" => "success",
       "reviews" => $reviews
     ]);
-} else {
+  } else {
     echo json_encode(["status" => "error", "message" => "Product Comment not found."]);
     exit();
   }
-
 }
-?>

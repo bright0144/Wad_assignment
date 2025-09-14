@@ -262,7 +262,7 @@ function updateCartItem(cartItemId, newQuantity) {
         //recalculate price
         updateTotalPrice();
       } else {
-       alert(response.message)
+        alert(response.message);
       }
     })
     .catch((error) => {

@@ -83,7 +83,7 @@ body {
   margin-top: 10px;
   display: flex;
   justify-content: flex-end;
-  gap: 10px; 
+  gap: 10px;
 }
 
 .cancelOrderBtn,
@@ -113,7 +113,6 @@ body {
 .reviewOrderBtn:hover {
   background-color: #0056b3;
 }
-
 
 @media (max-width: 600px) {
   .orderInfo,

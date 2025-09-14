@@ -27,7 +27,6 @@ window.onload = function () {
       return;
     }
 
-  
     orders.forEach((order) => {
       const orderDiv = document.createElement("div");
       orderDiv.setAttribute("id", order.order_id);
@@ -85,7 +84,7 @@ window.onload = function () {
               });
           } else {
             //avoid empty string issue
-            alert("invalid comment. Please try again.")
+            alert("invalid comment. Please try again.");
           }
         };
         itemLi.appendChild(reviewBtn);
@@ -121,7 +120,7 @@ window.onload = function () {
             })
               .then((res) => res.json())
               .then((result) => {
-                if(result.status === 'success'){
+                if (result.status === "success") {
                   alert(result.message);
                   window.location.href();
                 } else {

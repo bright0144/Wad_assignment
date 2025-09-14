@@ -16,21 +16,21 @@ $cust_id = $_SESSION["id"];
 
 //fetch address
 try {
-   
-    $sqlFetchAddress = "SELECT * FROM `customer_addresses` WHERE cust_id = ?";
-    $stmtFetchAddress = $conn->prepare($sqlFetchAddress);
-   
-    $stmtFetchAddress->bind_param("i", $cust_id);
-    $stmtFetchAddress->execute();
-    $result = $stmtFetchAddress->get_result();
 
-    $addresses = [];
-    while ($row = $result->fetch_assoc()) {
-      $addresses[] = $row;
-    }
+  $sqlFetchAddress = "SELECT * FROM `customer_addresses` WHERE cust_id = ?";
+  $stmtFetchAddress = $conn->prepare($sqlFetchAddress);
 
-    $stmtFetchAddress->close();
-    echo json_encode(["status" => "success", "addresses" => $addresses]);
+  $stmtFetchAddress->bind_param("i", $cust_id);
+  $stmtFetchAddress->execute();
+  $result = $stmtFetchAddress->get_result();
+
+  $addresses = [];
+  while ($row = $result->fetch_assoc()) {
+    $addresses[] = $row;
+  }
+
+  $stmtFetchAddress->close();
+  echo json_encode(["status" => "success", "addresses" => $addresses]);
 } catch (Exception $e) {
   echo json_encode(["status" => "error", "message" => "An error occurred when fetching address, Please try again or refresh page "]);
 }

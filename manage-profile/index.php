@@ -208,6 +208,6 @@ $states = [
   </main>
   <?php include("../footer/index.php"); ?>
 </body>
-<script src="./script.js"></script>
+<script src="./manage-profile.js"></script>
 
 </html>

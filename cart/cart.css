@@ -160,19 +160,18 @@ label[for="addressSelection"] {
 
 #addressSelection:focus {
   outline: none;
-  box-shadow: 0 0 0 2px #FFA500;
+  box-shadow: 0 0 0 2px #ffa500;
 }
 
 input[name="itemSelectCheckbox"] {
-  accent-color: #FFA500;
+  accent-color: #ffa500;
   color: white;
 }
-
 
 #checkoutButton {
   display: block;
   margin: 25px auto 0 auto;
-  background-color: #FFA500;
+  background-color: #ffa500;
   color: white;
   border: none;
   padding: 12px 20px;
@@ -191,7 +190,8 @@ input[name="itemSelectCheckbox"] {
   background-color: #facf78;
 }
 
-select, input {
+select,
+input {
   font-family: inherit;
 }
 

@@ -69,7 +69,7 @@ if (!isset($_SESSION['id'])) {
 
   <?php include("../../footer/index.php"); ?>
 
-  <script src="./script.js"></script>
+  <script src="./product-list.js"></script>
 
 </body>
 

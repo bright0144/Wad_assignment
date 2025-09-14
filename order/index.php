@@ -23,7 +23,7 @@ if (!isset($_SESSION['id'])) {
         <div id="orderContainer" class="orderContainer"></div>
     </main>
     <?php include("../footer/index.php"); ?>
-    <script src="script.js"></script>
+    <script src="order.js"></script>
 </body>
 
 </html>

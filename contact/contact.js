@@ -45,7 +45,7 @@ function handleSubmitContact(e) {
     hasErr = true;
   }
 
-  if(!hasErr) {
-    alert("Your contact information has been sent!")
+  if (!hasErr) {
+    alert("Your contact information has been sent!");
   }
 }

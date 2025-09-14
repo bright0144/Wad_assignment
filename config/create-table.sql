@@ -2,7 +2,7 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
+-- Host: 127.0.0.1:3307
 -- Generation Time: Sep 07, 2025 at 01:25 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
@@ -247,7 +247,8 @@ CREATE TABLE IF NOT EXISTS `product_category` (
   `category_id` int NOT NULL AUTO_INCREMENT,
   `category_name` varchar(45) NOT NULL,
   PRIMARY KEY (`category_id`),
-  UNIQUE KEY `category_id_UNIQUE` (`category_id`)
+  UNIQUE KEY `category_id_UNIQUE` (`category_id`
+  )
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 
 --

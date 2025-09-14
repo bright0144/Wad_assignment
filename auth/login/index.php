@@ -108,7 +108,7 @@ function validatepassword(string $password)
 </head>
 
 <body>
-  <div class="max-w-[500px] w-full mx-auto mt-20 p-8 bg-[#222] border-2 border-yellow-200 rounded-3xl shadow-2xl shadow-gray-900/40 text-white">
+  <main class="max-w-[500px] w-full mx-auto mt-20 p-8 bg-[#222] border-2 border-yellow-200 rounded-3xl shadow-2xl shadow-gray-900/40 text-white">
     <!-- Sign in form -->
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="flex flex-col gap-6">
 
@@ -156,7 +156,7 @@ function validatepassword(string $password)
       <a href="../register/index.php" class="ml-2 inline-block transition-transform duration-200
           hover:scale-110 hover:underline text-[#FFA500]">Sign Up here!</a>
     </div>
-  </div>
+  </main>
 
 </body>
 
