@@ -132,16 +132,3 @@ form button[type="submit"]:hover {
   display: flex;
   margin-right: 20px;
 }
-
-/* Responsive */
-@media (max-width: 700px) {
-  .contact-info {
-    flex-direction: column;
-    gap: 25px;
-  }
-
-  .contact-item {
-    max-width: 100%;
-    justify-content: center;
-  }
-}
