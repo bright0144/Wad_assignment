@@ -39,7 +39,7 @@ if (isset($_SESSION['id'])) {
 
 
             <nav id="mobileNav" class="md:h-0 max-h-0 opacity-0 transition-[max-height,opacity] duration-500 ease-in-out">
-                <ul class="nav-links flex flex-col justify-center items-center gap-3">
+                <ul class="nav-links pointer-events-none flex flex-col justify-center items-center gap-3">
                     <li><a href="/Wad_assignment/index.php">Home</a></li>
                     <li><a href="/Wad_assignment/contact/index.php">Contact</a></li>
 

@@ -9,5 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
     nav.classList.toggle("max-h-[500px]");
     nav.classList.toggle("opacity-0");
     nav.classList.toggle("opacity-100");
+    nav.querySelector(".nav-links").classList.toggle("pointer-events-none")
   });
 });
