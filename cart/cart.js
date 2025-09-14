@@ -20,6 +20,13 @@ cartContainer.addEventListener("click", function (e) {
     const quantityInput = document.getElementById(`${cartItemId}`);
     let currentQuantity = parseInt(quantityInput.value);
     const newQuantity = currentQuantity + 1;
+    // Check if new qty is >= stock qty
+    const maxQty = parseInt(
+      e.target.parentElement.querySelector("input[type=number]").max
+    );
+    if (newQuantity > maxQty) {
+      return;
+    }
     updateCartItem(cartItemId, newQuantity);
   }
 
@@ -157,7 +164,7 @@ function fetchCartFromDB() {
           <td>
             <div class="quantityContainer">
               <button class="decreaseButton" data-id="${cartItem.cart_item_id}">–</button>
-              <input type="number" id="${cartItem.cart_item_id}" value="${cartItem.cart_item_qty}" min="1" disabled style="width: 50px; text-align: center;" />
+              <input type="number" disabled id="${cartItem.cart_item_id}" value="${cartItem.cart_item_qty}" min="1" disabled style="width: 50px; text-align: center;" max="${cartItem.stock_qty}"/>
               <button class="increaseButton" data-id="${cartItem.cart_item_id}">+</button>
             </div>
           </td>
@@ -177,6 +184,15 @@ function fetchCartFromDB() {
       cartContainer.innerHTML = `<p>Failed to load cart from database. Please try again later or refresh the page.</p>`;
     });
 }
+
+// function handleDecreaseQty(ele) {
+//   const qtyInput = ele.current.parentElement.querySelector("input[type=number");
+//   if (qtyInput.value <= 1) {
+//     return;
+//   }
+
+//   qtyInput.value = qtyInput.value - 1;
+// }
 
 //Calculate total price based on checked cart item
 function updateTotalPrice() {

@@ -47,6 +47,7 @@ window.onload = function () {
                   value="1" 
                   min="1" 
                   max="${productQuantity}" 
+                  disabled
                   class="w-14 text-center border-3 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#FFA550] focus:outline-none focus:border-transparent h-[30px]"
                 />
                 <button id="increaseQuantity" class="px-3 py-1 bg-[#FFA550]  hover:opacity-70 rounded-full">+</button>

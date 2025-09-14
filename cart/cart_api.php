@@ -155,7 +155,7 @@ function getCartDataFromDB($cust_id, $conn)
 {
 
   $sqlFetchCart = "SELECT ci.cart_item_id, p.product_id, p.product_name, 
-    ci.cart_item_qty, ci.cart_item_price FROM cart_item AS ci JOIN product 
+    ci.cart_item_qty, ci.cart_item_price, p.stock_qty FROM cart_item AS ci JOIN product 
     AS p ON ci.product_id = p.product_id WHERE ci.cust_id = ?";
   $stmtFetchCart = $conn->prepare($sqlFetchCart);
 
