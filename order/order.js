@@ -122,7 +122,7 @@ window.onload = function () {
               .then((result) => {
                 if (result.status === "success") {
                   alert(result.message);
-                  window.location.href();
+                  window.location.reload();
                 } else {
                   alert(result.message);
                 }
