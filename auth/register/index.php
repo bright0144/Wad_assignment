@@ -166,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 function validateEmail(string $email)
 {
-  $emailregex = "/\w+@\w+\.\w+/";
+  $emailregex = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
   return preg_match($emailregex, $email) === 1;
 }
 
@@ -290,7 +290,7 @@ function validatePhoneNumber(string $phoneNumber)
       <!-- Email Field -->
       <label class="flex flex-col gap-1">
         <span class="text-sm ">Email</span>
-        <input type="text" id="email" name="email" required placeholder="Your email"
+        <input type="email" id="email" name="email" required placeholder="Your email"
           value="<?php echo htmlspecialchars($email) ?>"
           class="bg-[#333] text-white rounded-md px-4 py-2 border-2 border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent transition-all duration-200" />
         <!-- Email error message -->

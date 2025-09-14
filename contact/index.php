@@ -29,17 +29,26 @@ if (!isset($_SESSION['id'])) {
   <div class="container">
     <h1>Contact Us</h1>
 
-    <form action="#" method="POSt">
-      <label for="name">Name</label>
-      <input type="text" id="name" name="name" placeholder="Your full name" required />
+    <form action="#" method="POST" id="contactForm">
+      <div class="nameField">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your full name" required />
+        <span class="err-msg"></span>
+      </div>
 
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="Your email address" required />
+      <div class="emailField">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Your email address" required />
+        <span class="err-msg"></span>
+      </div>
 
-      <label for="message">Message</label>
-      <textarea id="message" name="message" rows="6" placeholder="Write your message here..." required></textarea>
+      <div class="messageField">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="6" placeholder="Write your message here..." required></textarea>
+        <span class="err-msg"></span>
+      </div>
 
-      <button type="submit">Send Message</button>
+      <button type="submit" onclick="handleSubmitContact(event)">Send Message</button>
     </form>
 
     <div style="margin: 40px 0;">
@@ -59,5 +68,6 @@ if (!isset($_SESSION['id'])) {
   </div>
   <?php include("../footer/index.php"); ?>
 </body>
+<script src="/Wad_assignment/contact/contact.js"></script>
 
 </html>
