@@ -41,7 +41,7 @@ function addToCart($cust_id, $conn)
 
   $data = json_decode(file_get_contents('php://input'), true);
 
-  $productId = $data['productId'];
+  $productId = (int)$data['productId'];
   $productPrice = $data['productPrice'];
   $productQuantity = $data['productQuantity'];
 
@@ -50,9 +50,18 @@ function addToCart($cust_id, $conn)
     exit();
   }
   try {
+    // Get product qty
+    $sqlQuerySearchProductQty = "SELECT stock_qty FROM product WHERE product_id = ?;";
+    $stmtSearchProductQty = $conn->prepare($sqlQuerySearchProductQty);
+    $stmtSearchProductQty->bind_param("i", $productId);
+    if ($stmtSearchProductQty->execute()) {
+      $result = $stmtSearchProductQty->get_result();
+      $productRow = $result->fetch_assoc();
+      $stockQty = $productRow['stock_qty'];
+    }
 
     //check item exisited 
-    $sqlQueryCart = "SELECT cart_item_id FROM cart_item where cust_id = ? and product_id = ? ";
+    $sqlQueryCart = "SELECT cart_item_id, cart_item_qty FROM cart_item where cust_id = ? and product_id = ? ";
     $stmtQueryCart = $conn->prepare($sqlQueryCart);
 
     $stmtQueryCart->bind_param("ii", $cust_id, $productId);
@@ -62,9 +71,11 @@ function addToCart($cust_id, $conn)
       if ($result->num_rows === 1) {
         $row = $result->fetch_assoc();
         $cartItemId = $row['cart_item_id'];
+        $cartItemQty = $row['cart_item_qty'];
         $sqlUpdateCart = "UPDATE cart_item SET cart_item_qty = cart_item_qty + ? WHERE cart_item_id = ?";
         $stmtUpdateCart  = $conn->prepare($sqlUpdateCart);
-        $stmtUpdateCart->bind_param("ii", $productQuantity, $cartItemId);
+        $qtyToIncrease = ($productQuantity + $cartItemQty <= $stockQty) ? $productQuantity : 0;
+        $stmtUpdateCart->bind_param("ii", $qtyToIncrease, $cartItemId);
         $stmtUpdateCart->execute();
         echo json_encode(["status" => "success", "message" => "Selected card is added to cart successfully! "]);
         $stmtUpdateCart->close();
